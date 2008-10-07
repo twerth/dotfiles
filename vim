@@ -1,1 +1,0 @@
-/Users/stamen/cl/etc/vim
