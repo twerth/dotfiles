@@ -10,11 +10,11 @@ module Autotest::Growl
     results = [autotest.results].flatten.join("\n")
     output = results.slice(/(\d+)\s+examples?,\s*(\d+)\s+failures?(,\s*(\d+)\s+pending)?/) 
     if output  =~ /[1-9]\sfailures?/
-      growl "FAIL:", "#{output}", "~/Library/autotest/rails_fail.png", 2, "-s" 
+      growl "FAIL:", "#{output}", "~/Library/autotest/fail.png", 2, "-s" 
     elsif output  =~ /[1-9]\spending?/
-      growl "PENDING:", "#{output}", "~/Library/autotest/rails_pending.png", 2, "-s" 
+      growl "PENDING:", "#{output}", "~/Library/autotest/pending.png", 2, "-s" 
     else
-      growl "PASS:", "#{output}", "~/Library/autotest/rails_ok.png" 
+      growl "PASS:", "#{output}", "~/Library/autotest/pass.png" 
     end
   end
 

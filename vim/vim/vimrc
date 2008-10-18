@@ -27,6 +27,10 @@ set numberwidth=4
 set equalalways " Multiple windows, when created, are equal in size
 set splitbelow splitright
 
+"Vertical split then hop to new buffer
+:noremap ,v :vsp^M^W^W<cr>
+:noremap ,h :split^M^W^W<cr>
+
 
 " Cursor highlights ***********************************************************
 set cursorline
@@ -56,6 +60,13 @@ set ruler " Show ruler
 " Line Wrapping ***************************************************************
 set nowrap
 set linebreak  " Wrap at word
+
+
+" Mappings ********************************************************************
+" Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
+imap jj <Esc>
+imap uu _
+"imap ,a @
 
 
 " Directories *****************************************************************
@@ -98,13 +109,6 @@ set vb t_vb= " Turn off the bell, this could be more annoying, but I'm not sure 
 " normally displayed i.e. whitespace, tabs, EOL
 "set listchars=trail:.,tab:>-,eol:$
 "set nolist
-
-
-" Mappings ********************************************************************
-" Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
-imap jj <Esc>
-imap uu _
-"imap ,a @
 
 
 " Mouse ***********************************************************************
@@ -153,14 +157,18 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete " may require rub
 "let g:snip_set_textmate_cp = '1'  " Tab to expand snippets, not automatically.
 
 
+" fuzzyfinder_textmate *****************************************************************
+map ,f :FuzzyFinderTextMate<CR>
+
+
 " Fuzzyfinder *****************************************************************
 " Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
-let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'MruFile':{}, 'FavFile':{}, 'Dir':{}, 'Tag':{}, 'TaggedFile':{}}
-let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
-let g:FuzzyFinderOptions.Base.migemo_support = 0
-let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.o$|\.git/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
-map ,f :FuzzyFinderFile Project-<CR>
-map ,b :FuzzyFinderBuffer<CR>
+"let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'MruFile':{}, 'FavFile':{}, 'Dir':{}, 'Tag':{}, 'TaggedFile':{}}
+"let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
+"let g:FuzzyFinderOptions.Base.migemo_support = 0
+"let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.o$|\.git/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
+"map ,f :FuzzyFinderFile Project-<CR>
+"map ,b :FuzzyFinderBuffer<CR>
 
 
 " autocomplpop ***************************************************************
