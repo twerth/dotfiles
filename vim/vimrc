@@ -48,7 +48,7 @@ set smartcase " Ignore case when searching lowercase
 "set t_Co=256 " 256 colors
 set background=dark 
 syntax on " syntax highlighting
-colorscheme ir_dark
+colorscheme ir_black
 
 
 " Status Line *****************************************************************
@@ -66,7 +66,8 @@ set linebreak  " Wrap at word
 " Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
 imap jj <Esc>
 imap uu _
-"imap ,a @
+imap hh =>
+imap aa @
 
 
 " Directories *****************************************************************
@@ -78,7 +79,7 @@ imap uu _
 "set directory=~/backup/vim/swap
 
 " Sets path to directory buffer was loaded from
-autocmd BufEnter * lcd %:p:h
+"autocmd BufEnter * lcd %:p:h
 
 
 " File Stuff ******************************************************************
@@ -159,12 +160,13 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete " may require rub
 
 " fuzzyfinder_textmate *****************************************************************
 map ,f :FuzzyFinderTextMate<CR>
-
+map ,b :FuzzyFinderBuffer<CR>
+"let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
 " Fuzzyfinder *****************************************************************
 " Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
 "let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'MruFile':{}, 'FavFile':{}, 'Dir':{}, 'Tag':{}, 'TaggedFile':{}}
-"let g:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
+"let gf:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
 "let g:FuzzyFinderOptions.Base.migemo_support = 0
 "let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.o$|\.git/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
 "map ,f :FuzzyFinderFile Project-<CR>
