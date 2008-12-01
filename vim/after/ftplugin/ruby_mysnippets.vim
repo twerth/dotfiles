@@ -2,20 +2,16 @@ if !exists('loaded_snippet') || &cp
     finish
 endif
 
+Snippet : :<{}> => <{}>
 Snippet :: :<{}> => :<{}>
-Snippet ar => <{}>
 
 Snippet pt puts <{}>
 Snippet ps puts '<{}>'<{}>
-Snippet pd puts \"<{}>\"<{}>
+Snippet pd puts "<{}>"<{}>
 
 " ERB
 Snippet rc <% <{}> %>
 Snippet rce <%= <{}> %><{}>
-
-" Rails
-Snippet ff <% form_for :<{}>, @<{}>, :url => { :action => '<{}>' } do |f| %><CR><{}><CR><% end %>
-Snippet submit <%= submit_tag '<{}>' %>
 
 " Same as TextMate  *********************************
 
@@ -38,8 +34,6 @@ Snippet rw attr_accessor :<{}>
 Snippet rb #!/usr/bin/env ruby -wKU<{}>
 Snippet req require '<{}>'<CR><{}>
 
-Snippet : :<{}> => '<{}>'<{}>
-
 " tim times { |n| .. }
 " upt upto(1.0/0.0) { |n| .. }
 " ste step(2) { |e| .. }
@@ -56,9 +50,9 @@ Snippet : :<{}> => '<{}>'<{}>
 Snippet tc require 'test/unit'<CR><CR>require '<{library}>'<CR><CR>class Test<{class}> < Test::Unit::TestCase<CR>def test_<{casename}><CR><{}><CR>end<CR>end
 Snippet deft def test_<{casename}><CR><{}><CR>end
 
-Snippet as assert(<{test}>, \"<{message}>\")<CR><{}>
-Snippet ase assert_equal(<{expected}>, <{actual}>)<CR><{}>
-Snippet asne assert_not_equal(<{unexpected}>, <{actual}>)<CR><{}>
+Snippet as assert <{test}><CR><{}>
+Snippet ase assert_equal <{expected}>, <{actual}><CR><{}>
+Snippet asne assert_not_equal <{unexpected}>, <{actual}><CR><{}>
 
 " RSpec
 Snippet de describe '<{description}>' do<CR>it 'should <{}>' do<CR><{}><CR>end<CR>end

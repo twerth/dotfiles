@@ -2,15 +2,17 @@ if !exists('loaded_snippet') || &cp
     finish
 endif
 
-Snippet : :<{}> => '<{}>'<{}>
+Snippet : :<{}> => <{}>
 Snippet :: :<{}> => :<{}>
-Snippet ar => <{}>
 
 " Structure
 Snippet cla class <{}><CR><{}><CR>end
 Snippet def def <{}><CR><{}><CR>end
 
-Snippet ps puts '<{}>'<CR><{}>
+Snippet pt puts <{}>
+Snippet ps puts '<{}>'<{}>
+Snippet pd puts "<{}>"<{}>
+
 Snippet if if <{condition}><CR><{}><CR>end<CR>
 
 " Attributes
@@ -19,9 +21,9 @@ Snippet w attr_writer :<{}>
 Snippet rw attr_accessor :<{}>
 
 " Testing
-Snippet as assert(<{test}>, \"<{message}>\")<CR><{}>
-Snippet ase assert_equal(<{expected}>, <{actual}>)<CR><{}>
-Snippet asne assert_not_equal(<{unexpected}>, <{actual}>)<CR><{}>
+Snippet as assert <{test}><CR><{}>
+Snippet ase assert_equal <{expected}>, <{actual}><CR><{}>
+Snippet asne assert_not_equal <{unexpected}>, <{actual}><CR><{}>
 
 "Rails
 Snippet rc <% <{}> %>
