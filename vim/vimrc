@@ -6,14 +6,36 @@
 set nocompatible
 
 " Tabs ************************************************************************
-set softtabstop=2
-set shiftwidth=2
-set tabstop=2
-set expandtab
-set sta " a <Tab> in an indent inserts 'shiftwidth' spaces
+"set sta " a <Tab> in an indent inserts 'shiftwidth' spaces
+
+function! Tabstyle_tabs()
+  " Using 4 column tabs
+  set softtabstop=4
+  set shiftwidth=4
+  set tabstop=4
+  set noexpandtab
+  autocmd User Rails set softtabstop=4
+  autocmd User Rails set shiftwidth=4
+  autocmd User Rails set tabstop=4
+  autocmd User Rails set noexpandtab
+endfunction
+
+function! Tabstyle_spaces()
+  " Use 2 spaces
+  set softtabstop=2
+  set shiftwidth=2
+  set tabstop=2
+  set expandtab
+endfunction
+
+if hostname() == "Laptop.local"
+  call Tabstyle_tabs() 
+else
+  call Tabstyle_spaces()
+endif
 
 
-" Indenting ********************************************************************
+" Indenting *******************************************************************
 set ai " Automatically set the indent of a new line (local to buffer)
 set si " smartindent	(local to buffer)
 
@@ -153,6 +175,13 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete " may require rub
 " NERDTree ********************************************************************
 :noremap ,n :NERDTreeToggle<CR>
 
+" User instead of Netrw when doing an edit /foobar
+let NERDTreeHijackNetrw=1
+
+" Single click for everything
+let NERDTreeMouseMode=1
+
+
 
 " SnippetsEmu *****************************************************************
 "imap <unique> <C-j> <Plug>Jumper
@@ -201,6 +230,13 @@ let g:AutoComplPop_BehaviorKeywordLength = 2
   "" 
 "endif
 
+
+
+" -----------------------------------------------------------------------------  
+" |                               Startup                                     |
+" -----------------------------------------------------------------------------  
+" Open NERDTree on start
+"autocmd VimEnter * exe 'NERDTree' | wincmd l 
 
 
 

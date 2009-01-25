@@ -26,7 +26,8 @@ set anti " Antialias font
 "set transparency=0
 
 " Default size of window
-set columns=120
-set lines=45
+set columns=120 
+set lines=50
 
-set guitablabel=%t " set label for tab to just file name
+" Tab headings 
+set gtl=%t gtt=%F

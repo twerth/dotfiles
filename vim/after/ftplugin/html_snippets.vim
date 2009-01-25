@@ -128,7 +128,7 @@ Snippet pre <pre><{}><CR></pre>
 Snippet br <br /><{}>
 Snippet space &nbsp;<{}>
 
-Snippet table <table summary="<{summary}>" class="<{className}>" width="<{}>" cellspacing="<{}>" cellpadding="<{}>" border="<{}>"><CR><{}><CR></table>
+Snippet table <table><CR><{}><CR></table>
 Snippet tr <tr><CR><{}><CR></tr>
 Snippet td <td><{}></td><{}>
 Snippet tfoot <tfoot><CR><{}><CR></tfoot><{}>
