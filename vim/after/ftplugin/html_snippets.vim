@@ -85,7 +85,9 @@ Snippet noscript <noscript><CR><{}><CR></noscript>
 Snippet body <body><CR><{}><CR></body>
 
 Snippet div <div id="<{id}>"><{}></div><{}>
+Snippet divc <div class="<{class}>"><{}></div><{}>
 Snippet divl <div id="<{id}>"><CR><{}><CR></div> <!-- <{id}> --><CR>
+Snippet divcl <div class="<{class}>"><CR><{}><CR></div><CR>
 Snippet span <span class="<{}>"><{}></span><{}>
 
 Snippet tg <<{tag}><{}>><{}></<{tag}>><{}>
@@ -106,6 +108,7 @@ Snippet h6 <h6><{}></h6><{}>
 Snippet h6l <h6><CR><{}><CR></h6>
 
 Snippet p <p><{}></p><{}>
+Snippet pc <p class="<{class}>"><{}></p><{}>
 Snippet pl <p><CR><{}><CR></p>
 
 Snippet st <strong><{}></strong> <{}>

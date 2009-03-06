@@ -26,7 +26,7 @@ Snippet ase assert_equal <{expected}>, <{actual}><CR><{}>
 Snippet asne assert_not_equal <{unexpected}>, <{actual}><CR><{}>
 
 "Rails
-Snippet rc <% <{}> %>
+Snippet rc <% <{}> -%>
 Snippet rce <%= <{}> %><{}>
 
 Snippet ff <% form_for :<{}>, @<{}>, :url => { :action => '<{}>' } do |f| %><CR><{}><CR><% end %>

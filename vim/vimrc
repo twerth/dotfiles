@@ -182,7 +182,6 @@ let NERDTreeHijackNetrw=1
 let NERDTreeMouseMode=1
 
 
-
 " SnippetsEmu *****************************************************************
 "imap <unique> <C-j> <Plug>Jumper
 "let g:snip_start_tag = "_\."
@@ -196,16 +195,6 @@ map ,f :FuzzyFinderTextMate<CR>
 map ,b :FuzzyFinderBuffer<CR>
 "let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
-" Fuzzyfinder *****************************************************************
-" Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
-"let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'MruFile':{}, 'FavFile':{}, 'Dir':{}, 'Tag':{}, 'TaggedFile':{}}
-"let gf:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
-"let g:FuzzyFinderOptions.Base.migemo_support = 0
-"let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.o$|\.git/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
-"map ,f :FuzzyFinderFile Project-<CR>
-"map ,b :FuzzyFinderBuffer<CR>
-
-
 " autocomplpop ***************************************************************
 " complete option
 "set complete=.,w,b,u,t,k
@@ -213,6 +202,7 @@ map ,b :FuzzyFinderBuffer<CR>
 "set complete=.
 let g:AutoComplPop_IgnoreCaseOption = 0
 let g:AutoComplPop_BehaviorKeywordLength = 2
+
 
 
 " -----------------------------------------------------------------------------  
@@ -237,94 +227,3 @@ let g:AutoComplPop_BehaviorKeywordLength = 2
 " -----------------------------------------------------------------------------  
 " Open NERDTree on start
 "autocmd VimEnter * exe 'NERDTree' | wincmd l 
-
-
-
-" -----------------------------------------------------------------------------  
-" |                              Test Stuff                                   |
-" -----------------------------------------------------------------------------  
-
-"" http://vim.wikia.com/wiki/Get_the_correct_indent_for_new_lines_despite_blank_lines
-"function! IndentIgnoringBlanks(child)
-  "while v:lnum > 1 && getline(v:lnum-1) == ""
-    "normal k
-    "let v:lnum = v:lnum - 1
-  "endwhile
-  "if a:child == ""
-    "if v:lnum <= 1 || ! &autoindent
-      "return 0
-    "elseif &cindent
-      "return cindent(v:lnum)
-    "else
-      "return indent(v:lnum-1)
-    "endif
-  "else
-    "exec "let indent=".a:child
-    "return indent==-1?indent(v:lnum-1):indent
-  "endif
-"endfunction
-"augroup IndentIgnoringBlanks
-  "au!
-  "au FileType * if match(&indentexpr,'IndentIgnoringBlanks') == -1 |
-        "\ let &indentexpr = "IndentIgnoringBlanks('".
-        "\ substitute(&indentexpr,"'","''","g")."')" |
-        "\ endif
-"augroup END
-
-
-" make p in Visual mode overwrite the selected text with the previously yanked text
-"vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
-
-"This makes Vim break text to avoid lines getting longer than 78 characters.  
-"But only for files that have been detected to be plain text
-"autocmd FileType text setlocal textwidth=78
-
-
-" doesn't work right !!
-"if exists("loaded_vimspell")
-  "set spell_auto_type="tex,mail,text,txt,html,sgml,otl"
-  ":SpellAutoEnable
-"endif
-
-
-" Quick find file (I use FuzzyFinder now)
-" Use ,f followed by the name:  ,f readme <enter>
-" Be careful not to use this in a directory with tons of sub-directories, as it can be slow in that situation
-"function! Find(name) 
-  "let l:_name = substitute(a:name, "\\s", "*", "g") 
-  "let l:list=system("find . -iname '*".l:_name."*' -not -name \"*.class\" -and -not -name \"*.swp\" -and -not -name \"*.svn*\" | perl -ne 'print \"$.\\t$_\"'") 
-  "let l:num=strlen(substitute(l:list, "[^\n]", "", "g")) 
-  "if l:num < 1 
-    "echo "'".a:name."' not found" 
-    "return 
-  "endif 
-
-  "if l:num != 1 
-    "echo l:list 
-    "let l:input=input("Which ? (<enter>=nothing)\n") 
-
-    "if strlen(l:input)==0 
-      "return 
-    "endif 
-
-    "if strlen(substitute(l:input, "[0-9]", "", "g"))>0 
-      "echo "Not a number"
-      "return 
-    "endif 
-
-    "if l:input<1 || l:input>l:num 
-      "echo "Out of range" 
-      "return 
-    "endif 
-
-    "let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*") 
-  "else 
-    "let l:line=l:list 
-  "endif 
-
-  "let l:line=substitute(l:line, "^[^\t]*\t./", "", "") 
-  "execute ":e ".l:line 
-"endfunction
-
-"command! -nargs=1 Find :call Find("<args>")
-"map ,f :Fi 

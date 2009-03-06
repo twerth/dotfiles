@@ -1,0 +1,29 @@
+# Help ------------------------------------------------------------
+
+alias help_rsync="echo -e '${COLOR_LIGHT_PURPLE} rsync help: 
+  ${COLOR_NC}To mirror a local folder (result will be /bar/foo): ${COLOR_CYAN}rsync_mirror /foo /bar
+  ${COLOR_NC}To mirror a local folder to remote with ssh: ${COLOR_CYAN}rsync_mirror -e "'"ssh -p 2222"'" foo user@server:~/bar
+  ${COLOR_NC}'"
+alias rsync_mirror="rsync -av --numeric-ids"
+
+alias help_scp="echo -e '${COLOR_LIGHT_PURPLE} scp help: 
+  ${COLOR_NC}Copy from remote site (copies bar.zip from remote to local current folder): 
+  ${COLOR_CYAN}scp user@server.domain.com:/foo/bar.zip bar.zip
+  ${COLOR_NC}Same, but with port specified:
+  ${COLOR_CYAN}scp -P 2222 user@server.domain.com:/foo/bar.zip bar.zip
+  ${COLOR_NC}'"
+  
+alias help_installfromsource="echo -e '${COLOR_LIGHT_PURPLE}Install from source: 
+  ${COLOR_NC}tar xvzf package.tar.gz (or tar xvjf package.tar.bz2)
+  cd package
+  ./configure
+  make
+  make install'"
+
+alias help_mysql="echo -e '${COLOR_LIGHT_PURPLE}MySQL: 
+  ${COLOR_NC}mysql -h host_here -u user_here -p 
+  ${COLOR_NC}mysqladmin -u USERNAME -p create database_name ${COLOR_GRAY} Create database
+  ${COLOR_NC}mysqladmin -u USERNAME -p drop database_name ${COLOR_GRAY} Drop database
+  ${COLOR_NC}mysqldump -u root -p database_name table_name >> your_output_file.sql ${COLOR_GRAY} Backup table 
+  ${COLOR_NC}mysqldump -u root -p -h host_here -P 3306 --skip-opt database_name table_name ${COLOR_GRAY} Backup table, no locks, specidfy host 
+  ${COLOR_NC}mysql -u USERNAME -p database_name < your_output_file.sql ${COLOR_GRAY} Restore from backup'"

@@ -10,7 +10,7 @@ Snippet ps puts '<{}>'<{}>
 Snippet pd puts "<{}>"<{}>
 
 " ERB
-Snippet rc <% <{}> %>
+Snippet rc <% <{}> -%>
 Snippet rce <%= <{}> %><{}>
 
 " Same as TextMate  *********************************
