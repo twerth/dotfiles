@@ -1,0 +1,21 @@
+require 'autotest/redgreen'
+
+module Autotest::Growl
+
+ def self.growl title, msg, img, pri=0, stick="" 
+   system "growlnotify -n autotest --image #{img} -p #{pri} -m #{ msg.inspect} #{title} #{stick}" 
+ end
+
+ Autotest.add_hook :ran_command do |autotest|
+   results = [autotest.results].flatten.join("\n")
+   output = results.slice(/(\d+)\s+examples?,\s*(\d+)\s+failures?(,\s*(\d+)\s+pending)?/) 
+   if output  =~ /[1-9]\sfailures?/
+     growl "FAIL:", "#{output}", "~/Library/autotest/fail.png", 2, "-s" 
+   elsif output  =~ /[1-9]\spending?/
+     growl "PENDING:", "#{output}", "~/Library/autotest/pending.png", 2, "-s" 
+   else
+     growl "PASS:", "#{output}", "~/Library/autotest/pass.png" 
+   end
+ end
+
+end

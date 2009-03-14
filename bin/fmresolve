@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#
+# Wrapper script to use FileMerge to resolve Subversion conflicts
+#
+
+FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
+
+function lookup {
+	local info=$1
+	local wantedkey=$2
+	local key
+	local value
+	# Split lines in info through word splitting
+	local IFS=$'\n'
+	for line in $info; do
+		key=${line%%: *}
+		value=${line#*: }
+		if [ $key == $wantedkey ]; then
+			RETVAL=$value
+			return 0
+		fi
+	done
+	return 1
+}
+
+while [ $# != 0 ]; do
+	case $1 in
+		-*)
+			echo "Unknown option: $1" 1>&2
+			exit 2
+		;;
+		*)
+			if [ -z "$conflictfile" ]; then
+				conflictfile=$1
+			else
+				echo "Too many files to resolve" 1>&2
+				exit 2
+			fi
+	esac
+	shift
+done
+
+if [ -z "$conflictfile" ]; then
+	echo "Usage: $0 [options] conflictfile" 1>&2
+	exit 2
+fi
+
+filedir=`dirname "$conflictfile"`
+info=`svn info "$conflictfile"`
+lookup "$info" "Conflict Current Base File" && leftfile=$RETVAL
+lookup "$info" "Conflict Previous Working File" && rightfile=$RETVAL
+lookup "$info" "Conflict Previous Base File" && ancestorfile=$RETVAL
+mergefile=`basename "$conflictfile"`
+
+if [ -z "$leftfile" ] || [ -z "$rightfile" ] || [ -z "$ancestorfile" ]; then
+	echo "Can't obtain conflict info for $conflictfile" 1>&2
+	exit 2
+fi
+
+echo Starting FileMerge... 1>&2
+exec "$FM" -left "${filedir}/${leftfile}" -right "${filedir}/${rightfile}" \
+	-ancestor "${filedir}/${ancestorfile}" -merge "${filedir}/${mergefile}"
