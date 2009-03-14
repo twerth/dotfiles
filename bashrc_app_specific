@@ -124,3 +124,53 @@ rrmigrateup (){
  	rake db:migrate:up VERSION=$@
 }
 alias rrmigratetest='rake db:migrate RAILS_ENV="test"'
+
+
+
+# MySQL ------------------------------------------------
+alias mqshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
+   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}databases${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}use${COLOR_GREEN}database${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}create${COLOR_GREEN}database${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}drop${COLOR_GREEN}database${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}tables${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}fields${COLOR_NC}
+   ${COLOR_GREEN}mq${COLOR_NC}run              ${COLOR_GRAY}Example: mqrun \"Select id From foo\"
+   ${COLOR_GREEN}mq${COLOR_NC}run${COLOR_GREEN}file${COLOR_NC}          ${COLOR_GRAY}Example: mqrunfile file_name
+   ${COLOR_GREEN}mq${COLOR_NC}run${COLOR_GREEN}file${COLOR_NC}to${COLOR_GREEN}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
+'"
+
+export MYSQL_DEFAULT_DB=mysql
+
+mqusedatabase (){
+	export MYSQL_DEFAULT_DB=$@
+}
+
+mqrun (){
+	mysql -u root -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
+}
+mqrunfile (){
+	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
+}
+mqrunfiletofile (){
+	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
+}
+mqrunfiletoeditor (){
+	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
+}
+
+alias mqlistdatabases='mqrun "show databases"' 
+alias mqlisttables='mqrun  "show tables"' 
+mqlistfields(){
+  mqrun "describe $@"
+}
+
+mqcreatedatabase(){
+  mysqladmin -u root create $@
+  echo "$@ Created" | highlight blue '.*'
+}
+
+mqdropdatabase(){
+  echo Warning | highlight red '.*'
+  mysqladmin -u root drop $@ 
+}
