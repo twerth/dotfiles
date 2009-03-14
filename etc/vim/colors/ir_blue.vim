@@ -1,4 +1,4 @@
-" ir_black color scheme
+" ir_blue color scheme
 " More at: http://blog.infinitered.com
 
 

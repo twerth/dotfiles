@@ -1,4 +1,4 @@
-" ir_black color scheme
+" ir_dark color scheme
 " More at: http://blog.infinitered.com
 
 
@@ -23,7 +23,7 @@ if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "ir_black"
+let colors_name = "ir_dark"
 
 
 "hi Example         guifg=NONE        guibg=NONE        gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
