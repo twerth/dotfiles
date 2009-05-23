@@ -29,9 +29,9 @@ function! Tabstyle_spaces()
 endfunction
 
 if hostname() == "Laptop.local"
-  call Tabstyle_tabs() 
-else
   call Tabstyle_spaces()
+else
+  call Tabstyle_tabs() 
 endif
 
 
@@ -108,7 +108,7 @@ imap aa @
 filetype plugin indent on
 " To show current filetype use: set filetype
 
-autocmd FileType html :set filetype=xhtml " we couldn't care less about html
+"autocmd FileType html :set filetype=xhtml 
 
 
 " Inser New Line **************************************************************

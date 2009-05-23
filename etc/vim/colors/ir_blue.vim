@@ -33,7 +33,7 @@ hi Normal           guifg=#f6f3e8     guibg=#000026     gui=NONE      ctermfg=NO
 hi NonText          guifg=#000026     guibg=#000026     gui=NONE      ctermfg=black       ctermbg=NONE        cterm=NONE
 
 hi Cursor           guifg=black       guibg=white       gui=NONE      ctermfg=black       ctermbg=white       cterm=reverse
-hi LineNr           guifg=black       guibg=#000026     gui=NONE      ctermfg=darkgray    ctermbg=NONE        cterm=NONE
+hi LineNr           guifg=#3e3e3e     guibg=#000026     gui=NONE      ctermfg=darkgray    ctermbg=NONE        cterm=NONE
 
 hi VertSplit        guifg=#404040     guibg=#404040     gui=NONE      ctermfg=darkgray    ctermbg=darkgray    cterm=NONE
 hi StatusLine       guifg=#CCCCCC     guibg=#404040     gui=italic    ctermfg=white       ctermbg=darkgray    cterm=NONE

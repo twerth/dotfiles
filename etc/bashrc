@@ -1,3 +1,5 @@
+alias reloadbash='source ~/cl/etc/bash_profile'
+
 # Colors ----------------------------------------------------------
 export TERM=xterm-color
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'

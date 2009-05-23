@@ -2,29 +2,28 @@
 export SVN_EDITOR='${EDITOR}'
 
 alias svshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
-   ${COLOR_GREEN}sv
-   ${COLOR_GREEN}sv${COLOR_NC}help
-   ${COLOR_GREEN}sv${COLOR_NC}import    ${COLOR_GRAY}Example: import ~/projects/my_local_folder http://svn.foo.com/bar
-   ${COLOR_GREEN}sv${COLOR_NC}checkout  ${COLOR_GRAY}Example: svcheckout http://svn.foo.com/bar
-   ${COLOR_GREEN}sv${COLOR_NC}status    
-   ${COLOR_GREEN}sv${COLOR_NC}status${COLOR_GREEN}remote
-   ${COLOR_GREEN}sv${COLOR_NC}add       ${COLOR_GRAY}Example: svadd your_file
-   ${COLOR_GREEN}sv${COLOR_NC}add${COLOR_GREEN}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
-   ${COLOR_GREEN}sv${COLOR_NC}delete    ${COLOR_GRAY}Example: svdelete your_file
-   ${COLOR_GREEN}sv${COLOR_NC}diff      ${COLOR_GRAY}Example: svdiff your_file
-   ${COLOR_GREEN}sv${COLOR_NC}diff${COLOR_GREEN}remote${COLOR_NC}   ${COLOR_GRAY}Example: svdiffremote your_file
-   ${COLOR_GREEN}sv${COLOR_NC}commit    ${COLOR_GRAY}Example: svcommit
-   ${COLOR_GREEN}sv${COLOR_NC}update    ${COLOR_GRAY}Example: svupdate
-   ${COLOR_GREEN}sv${COLOR_NC}get${COLOR_GREEN}info${COLOR_NC}   ${COLOR_GRAY}Example: svgetinfo your_file
-   ${COLOR_GREEN}sv${COLOR_NC}blame     ${COLOR_GRAY}Example: svblame your_file
-   ${COLOR_GREEN}sv${COLOR_NC}delete${COLOR_GREEN}svn${COLOR_NC}folders   ${COLOR_GRAY}Example: svdeletesvnfolders
+   ${COLOR_BLUE}sv
+   ${COLOR_BLUE}sv${COLOR_NC}help
+   ${COLOR_BLUE}sv${COLOR_NC}import    ${COLOR_GRAY}Example: import ~/projects/my_local_folder http://svn.foo.com/bar
+   ${COLOR_BLUE}sv${COLOR_NC}checkout  ${COLOR_GRAY}Example: svcheckout http://svn.foo.com/bar
+   ${COLOR_BLUE}sv${COLOR_NC}status    
+   ${COLOR_BLUE}sv${COLOR_NC}status${COLOR_BLUE}remote
+   ${COLOR_BLUE}sv${COLOR_NC}add       ${COLOR_GRAY}Example: svadd your_file
+   ${COLOR_BLUE}sv${COLOR_NC}add${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
+   ${COLOR_BLUE}sv${COLOR_NC}delete    ${COLOR_GRAY}Example: svdelete your_file
+   ${COLOR_BLUE}sv${COLOR_NC}diff      ${COLOR_GRAY}Example: svdiff your_file
+   ${COLOR_BLUE}sv${COLOR_NC}diff${COLOR_BLUE}remote${COLOR_NC}   ${COLOR_GRAY}Example: svdiffremote your_file
+   ${COLOR_BLUE}sv${COLOR_NC}commit    ${COLOR_GRAY}Example: svcommit
+   ${COLOR_BLUE}sv${COLOR_NC}update    ${COLOR_GRAY}Example: svupdate
+   ${COLOR_BLUE}sv${COLOR_NC}get${COLOR_BLUE}info${COLOR_NC}   ${COLOR_GRAY}Example: svgetinfo your_file
+   ${COLOR_BLUE}sv${COLOR_NC}blame     ${COLOR_GRAY}Example: svblame your_file
+   ${COLOR_BLUE}sv${COLOR_NC}delete${COLOR_BLUE}svn${COLOR_NC}folders   ${COLOR_GRAY}Example: svdeletesvnfolders
 '"
    
 alias sv='svn'
 alias svimport='sv import'
 alias svcheckout='sv checkout'
 alias svstatus='sv status'
-alias svupdate='sv update'
 alias svstatusremote='sv status --show-updates' # Show status here and on the server
 alias svcommit='sv commit'
 alias svadd='sv add'
@@ -36,9 +35,13 @@ alias svdeletesvnfolders='find . -name ".svn" -exec rm -rf {} \;'
 alias svexcludeswpfiles='sv propset svn:ignore "*.swp" .' 
 alias svdeleteall='sv status | grep "^\!" | awk "{print \$2}" | xargs svn delete'
 
+svupdate (){
+  sv update | highlight red "C .*" green "G .*" blue "A .*" yellow "D .*"
+}
+
 svgetinfo (){
- 	sv info $@
-	sv log $@
+  sv info $@
+  sv log $@
 }
 
 if [ "$OS" = "darwin" ] ; then
@@ -51,24 +54,27 @@ fi
 
 # git ------------------------------------------------
 alias gtshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
-   ${COLOR_GREEN}gt
-   ${COLOR_GREEN}gt${COLOR_NC}commit    ${COLOR_GRAY}Example: gtcommit -m \"Your message here\"
-   ${COLOR_GREEN}gt${COLOR_NC}add       ${COLOR_GRAY}Example: gtadd your_file
-   ${COLOR_GREEN}gt${COLOR_NC}add${COLOR_GREEN}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
-   ${COLOR_GREEN}gt${COLOR_NC}show    
-   ${COLOR_GREEN}gt${COLOR_NC}diff    
-   ${COLOR_GREEN}gt${COLOR_NC}push    
-   ${COLOR_GREEN}gt${COLOR_NC}pull
-   ${COLOR_GREEN}gt${COLOR_NC}fetch    
-   ${COLOR_GREEN}gt${COLOR_NC}blame    
-   ${COLOR_GREEN}gt${COLOR_NC}log    
-   ${COLOR_GREEN}gt${COLOR_NC}log${COLOR_GREEN}stat${COLOR_NC}
-   ${COLOR_GREEN}gt${COLOR_NC}status    
+   ${COLOR_BLUE}gt
+   ${COLOR_BLUE}gt${COLOR_NC}commit${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Example: gtcommitall -m \"Your message here\"
+   ${COLOR_BLUE}gt${COLOR_NC}commit
+   ${COLOR_BLUE}gt${COLOR_NC}add       ${COLOR_GRAY}Example: gtadd your_file
+   ${COLOR_BLUE}gt${COLOR_NC}add${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
+   ${COLOR_BLUE}gt${COLOR_NC}show    
+   ${COLOR_BLUE}gt${COLOR_NC}diff    
+   ${COLOR_BLUE}gt${COLOR_NC}push    
+   ${COLOR_BLUE}gt${COLOR_NC}pull
+   ${COLOR_BLUE}gt${COLOR_NC}fetch    
+   ${COLOR_BLUE}gt${COLOR_NC}checkout  ${COLOR_GRAY}(like svn revert) Example: gtcheckout your_file  
+   ${COLOR_BLUE}gt${COLOR_NC}blame    
+   ${COLOR_BLUE}gt${COLOR_NC}log    
+   ${COLOR_BLUE}gt${COLOR_NC}log${COLOR_BLUE}stat${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}status    
 '"
    
 alias gt='git'
 alias gtclone='gt clone'
-alias gtcommit='gt commit -a -v'
+alias gtcommit='gt commit'
+alias gtcommitall='gt commit -a -v'
 alias gtadd='gt add'
 alias gtaddall='gt add .'
 alias gtdiff='gt diff'
@@ -76,6 +82,7 @@ alias gtpush='gt push'
 alias gtfetch='gt fetch'
 alias gtpull='gt pull'
 alias gtremove='gt rm'
+alias gtcheckout='gt checkout'
 alias gtmove='gt mv'
 alias gtshow='gt show'
 alias gtblame='gt blame'
@@ -87,22 +94,25 @@ alias gtstatus='gt status'
 
 # Rails and Rake -------------------------------------------------
 alias rrshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
-   ${COLOR_GREEN}rr${COLOR_NC}server
-   ${COLOR_GREEN}rr${COLOR_NC}server${COLOR_GREEN}production
-   ${COLOR_GREEN}rr${COLOR_NC}generate
-   ${COLOR_GREEN}rr${COLOR_NC}console
-   ${COLOR_GREEN}rr${COLOR_NC}test
-   ${COLOR_GREEN}rr${COLOR_NC}test${COLOR_GREEN}summary
-   ${COLOR_GREEN}rr${COLOR_NC}migrate
-   ${COLOR_GREEN}rr${COLOR_NC}migrate${COLOR_GREEN}test
-   ${COLOR_GREEN}rr${COLOR_NC}migrate${COLOR_GREEN}down
-   ${COLOR_GREEN}rr${COLOR_NC}migrate${COLOR_GREEN}up
+   ${COLOR_BLUE}rr${COLOR_NC}server
+   ${COLOR_BLUE}rr${COLOR_NC}server${COLOR_BLUE}production
+   ${COLOR_BLUE}rr${COLOR_NC}generate
+   ${COLOR_BLUE}rr${COLOR_NC}console
+   ${COLOR_BLUE}rr${COLOR_NC}test
+   ${COLOR_BLUE}rr${COLOR_NC}test${COLOR_BLUE}summary
+   ${COLOR_BLUE}rr${COLOR_NC}rake${COLOR_BLUE}list
+   ${COLOR_BLUE}rr${COLOR_NC}migrate
+   ${COLOR_BLUE}rr${COLOR_NC}migrate${COLOR_BLUE}test
+   ${COLOR_BLUE}rr${COLOR_NC}migrate${COLOR_BLUE}down
+   ${COLOR_BLUE}rr${COLOR_NC}migrate${COLOR_BLUE}up
 '"
 
 alias rrserver='./script/server'
 alias rrserverproduction='./script/server -e production'
 alias rrgenerate='./script/generate'
 alias rrconsole='./script/console'
+
+alias rrrakelist='rake -T | g ":"'
 
 rrtest(){
   date
@@ -129,15 +139,15 @@ alias rrmigratetest='rake db:migrate RAILS_ENV="test"'
 
 # MySQL ------------------------------------------------
 alias mqshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
-   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}databases${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}use${COLOR_GREEN}database${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}create${COLOR_GREEN}database${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}drop${COLOR_GREEN}database${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}tables${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}list${COLOR_GREEN}fields${COLOR_NC}
-   ${COLOR_GREEN}mq${COLOR_NC}run              ${COLOR_GRAY}Example: mqrun \"Select id From foo\"
-   ${COLOR_GREEN}mq${COLOR_NC}run${COLOR_GREEN}file${COLOR_NC}          ${COLOR_GRAY}Example: mqrunfile file_name
-   ${COLOR_GREEN}mq${COLOR_NC}run${COLOR_GREEN}file${COLOR_NC}to${COLOR_GREEN}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
+   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}databases${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}use${COLOR_BLUE}database${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}create${COLOR_BLUE}database${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}drop${COLOR_BLUE}database${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}tables${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}fields${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}run              ${COLOR_GRAY}Example: mqrun \"Select id From foo\"
+   ${COLOR_BLUE}mq${COLOR_NC}run${COLOR_BLUE}file${COLOR_NC}          ${COLOR_GRAY}Example: mqrunfile file_name
+   ${COLOR_BLUE}mq${COLOR_NC}run${COLOR_BLUE}file${COLOR_NC}to${COLOR_BLUE}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
 '"
 
 export MYSQL_DEFAULT_DB=mysql

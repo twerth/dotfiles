@@ -1,7 +1,7 @@
 " Note, many snippets have a 'l'ong version, which is the multiline version, as well as the normal version which is on one line;
 " such as div and divl, p an pl, etc.
 "
-" Extra spaces after some tags, such as img and base ( <img /> <br /> ), are intentional for compatibility with older browsers
+" Extra spaces after some tags, such as img and base ( <img> <br> ), are intentional for compatibility with older browsers
 " 
 " Available Snippets ******************************************
 " xml
@@ -53,32 +53,30 @@ if !exists('loaded_snippet') || &cp
     finish
 endif
 
-" Due to issues with IE 6, you should leave off the XML declaration if you are targeting such browsers
-Snippet xml <?xml version="<{"1.0"}>" encoding="<{"UTF-8"}>"?><CR><CR><{}>
-
-function! SelectXHTMLDoctype()
+function! SelectHTMLDoctype()
     let dt = inputlist(['Select doctype:',
-              \ '1. XHTML 1.0 Frameset',
-              \ '2. XHTML 1.0 Strict',
-              \ '3. XHTML 1.0 Transitional' ])
-    let dts = { 1: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n\n",
-              \ 2: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\n",
-              \ 3: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n"}
+                \ '1. HTML 4.01 Strict',
+                \ '2. HTML 4.01 Transitional',
+                \ '3. HTML 4.01 Frameset'])
+    let dts = {1: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n\"http://www.w3.org/TR/html4/strict.dtd\">\n",
+             \ 2: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n\"http://www.w3.org/TR/html4/loose.dtd\">\n",
+             \ 3: "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"\n\"http://www.w3.org/TR/html4/frameset.dtd\">\n",
+             \ 7: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML Frameset//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n"}
     return dts[dt]
 endfunction
-Snippet doctype ``SelectXHTMLDoctype()``
+Snippet doctype ``SelectHTMLDoctype()``
 
-Snippet html <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{en}>" lang="<{en}>"><CR><{}><CR></html>
+Snippet html <html><CR><{}><CR></html>
 
-Snippet head <head><CR><meta http-equiv="Content-type" content="text/html; charset=utf-8"/><CR><title><{}></title><CR><{}><CR></head><CR>
-Snippet meta <meta name="<{name}>" content="<{content}>" /><{}>
+Snippet head <head><CR><meta http-equiv="Content-type" content="text/html; charset=utf-8"><CR><title><{}></title><CR><{}><CR></head><CR>
+Snippet meta <meta name="<{name}>" content="<{content}>"><{}>
 
-Snippet base <base href="<{}>" /><{}> 
-Snippet link <link rel="<{stylesheet}>" href="<{"/stylesheets/base.css"}>" type="text/css" media="<{all}>" title="<{standard}>" charset="<{"utf-8"}>" /><{}>
-Snippet shortcut <link rel="shortcut icon" href="<{"favicon.ico"}>" /><{}>
+Snippet base <base href="<{}>"><{}> 
+Snippet link <link rel="<{stylesheet}>" href="<{"/stylesheets/base.css"}>" type="text/css" media="<{all}>" title="<{standard}>" charset="<{"utf-8"}>"><{}>
+Snippet shortcut <link rel="shortcut icon" href="<{"favicon.ico"}>"><{}>
 Snippet style <style type="text/css" media="<{screen}>"><CR>/* <![CDATA[ */<CR><{}><CR>/* ]]> */<CR></style>
 
-Snippet script <script type="text/javascript" charset="<{"utf-8"}>"><CR>// <![CDATA[<CR><{}><CR>// ]]><CR></script>
+Snippet script <script type="text/javascript" charset="<{"utf-8"}>"><CR><{}><CR></script>
 Snippet scriptsrc <script src="<{}>" type="text/javascript" charset="<{"utf-8"}>"></script><{}>
 Snippet noscript <noscript><CR><{}><CR></noscript>
 
@@ -119,7 +117,7 @@ Snippet ins <ins><{}></ins> <{}>
 Snippet aref <a href="<{}>" title="<{}>"><{}></a><{}>
 Snippet mailto <a href="mailto:<{}>?subject=<{}>"><{}></a><{}>
 
-Snippet img <img src="<{}>" alt="<{" "}>" <{}>/><{}>
+Snippet img <img src="<{}>" alt="<{" "}>"><{}>
 
 Snippet ul <ul><CR><{}><CR></ul>
 Snippet ol <ol><CR><{}><CR></ol>
@@ -128,7 +126,7 @@ Snippet li <li><{}></li><CR><{}>
 Snippet code <code><{}><CR></code> 
 Snippet pre <pre><{}><CR></pre>
 
-Snippet br <br /><{}>
+Snippet br <br><{}>
 Snippet space &nbsp;<{}>
 
 Snippet table <table><CR><{}><CR></table>
@@ -140,7 +138,7 @@ Snippet form <form action="<{urlToGoTo}>" method="<{get}>" id="<{formID}>"><CR><
 Snippet fieldset <fieldset><CR><{}><CR></fieldset>
 Snippet legend <legend align="<{}>" accesskey="<{}>"><{}></legend><{}>
 Snippet label <label for="<{inputItem}>"><{}></label><{}>
-Snippet input <input type="<{"text submit hidden button"}>" name="<{name}>" id="<{name}>" value="<{}>" tabindex="<{}>" <{}>/><{}>
+Snippet input <input type="<{"text submit hidden button"}>" name="<{name}>" id="<{name}>" value="<{}>" tabindex="<{}>"><{}>
 Snippet select <select id="<{ID}>" name="<{Name}>" size="<{}>" tabindex="<{}>"><CR><{}><CR></select><CR>
 Snippet optgroup <optgroup label="<{Label}>"><CR><{}><CR></optgroup>
 Snippet opt <option label="<{label}>" value="<{value}>"><{}></option> <{}>
@@ -154,7 +152,7 @@ Snippet dl <dl><CR><{}><CR></dl>
 Snippet dt <dt><{}></dt><CR><dd><{}></dd><{}>
 
 Snippet hint <span class="hint"><{}></span><{}>
-Snippet movie <object width="<{}>" height="<{}>"<CR>classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"<CR>codebase="http://www.apple.com/qtactivex/qtplugin.cab"><CR><param name="src"<CR>value="<{}>" /><CR><param name="controller" value="<{}>" /><CR><param name="autoplay" value="<{}>" /><CR><embed src="<{}>"<CR>width="<{}>" height="<{}>"<CR>controller="<{}>" autoplay="<{}>"<CR>scale="tofit" cache="true"<CR>pluginspage="http://www.apple.com/quicktime/download/"<CR>/><CR></object><CR><{}>
+Snippet movie <object width="<{}>" height="<{}>"<CR>classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"<CR>codebase="http://www.apple.com/qtactivex/qtplugin.cab"><CR><param name="src"<CR>value="<{}>"><CR><param name="controller" value="<{}>"><CR><param name="autoplay" value="<{}>"><CR><embed src="<{}>"<CR>width="<{}>" height="<{}>"<CR>controller="<{}>" autoplay="<{}>"<CR>scale="tofit" cache="true"<CR>pluginspage="http://www.apple.com/quicktime/download/"<CR>><CR></object><CR><{}>
 
 Snippet cmt <!-- <{}> -->
 Snippet cdata <![CDATA[ <{}> ]]>
