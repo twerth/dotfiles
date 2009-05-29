@@ -1,6 +1,27 @@
 " -----------------------------------------------------------------------------  
 " |                            VIM Settings                                   |
 " |                   (see gvimrc for gui vim settings)                       |
+" |                                                                           |
+" | Some highlights:                                                          |
+" | jj = <esc>  Very useful for keeping your hands on the home row            |
+" | ,n = toggle NERDTree off and on                                           |
+" |                                                                           |
+" | ,f = fuzzy find all files                                                 |
+" | ,b = fuzzy find in all buffers                                            |
+" |                                                                           |
+" | hh = inserts '=>'                                                         |
+" | aa = inserts '@'                                                          |
+" |                                                                           |
+" | ,h = new horizontal window                                                |
+" | ,v = new vertical window                                                  |
+" |                                                                           |
+" | ,f = fuzzy find all files                                                 |
+" | ,b = fuzzy find all buffers                                               |
+" |                                                                           |
+" | enter and shift-enter = adds a new line after and before the current line |
+" |                                                                           |
+" | :call Tabstyle_tabs = set tab to real tabs                                |
+" | :call Tabstyle_spaces = set tab to 2 spaces                               |
 " -----------------------------------------------------------------------------  
 
 set nocompatible

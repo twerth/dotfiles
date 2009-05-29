@@ -4,8 +4,8 @@
 # here: http://www.perforce.com/perforce/downloads/component.html
 
 if [ "$5" != "/dev/null" ] && [ "$2" != "/dev/null" ] ; then
-  echo "$2 -> $5"
+  echo "$1 -> $5"
   [ $# -eq 7 ] && p4merge "$2" "$5"
 else
-  echo "$2 -> $5 ------- Skipped --------"
+  echo "$1 -> $5 ------- Skipped --------"
 fi

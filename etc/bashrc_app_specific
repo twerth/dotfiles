@@ -61,6 +61,7 @@ alias gtshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}gt${COLOR_NC}add${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
    ${COLOR_BLUE}gt${COLOR_NC}show    
    ${COLOR_BLUE}gt${COLOR_NC}diff    
+   ${COLOR_BLUE}gt${COLOR_NC}diff${COLOR_BLUE}staged${COLOR_NC}
    ${COLOR_BLUE}gt${COLOR_NC}push    
    ${COLOR_BLUE}gt${COLOR_NC}pull
    ${COLOR_BLUE}gt${COLOR_NC}fetch    
@@ -78,6 +79,7 @@ alias gtcommitall='gt commit -a -v'
 alias gtadd='gt add'
 alias gtaddall='gt add .'
 alias gtdiff='gt diff'
+alias gtdiffstaged='gt diff --cached'
 alias gtpush='gt push'
 alias gtfetch='gt fetch'
 alias gtpull='gt pull'
@@ -113,6 +115,7 @@ alias rrgenerate='./script/generate'
 alias rrconsole='./script/console'
 
 alias rrrakelist='rake -T | g ":"'
+alias rrrakefind='rake -T | g '
 
 rrtest(){
   date
