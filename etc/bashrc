@@ -38,7 +38,8 @@ alias colorslist="set | egrep 'COLOR_\w*'"  # lists all the colors
 # History ----------------------------------------------------------
 export HISTCONTROL=ignoredups
 #export HISTCONTROL=erasedups
-export HISTIGNORE="ls:cd:[bf]g:exit"
+export HISTFILESIZE=3000
+export HISTIGNORE="ls:cd:[bf]g:exit:..:...:ll:lla"
 alias h=history
 alias hf='history | g'
 

@@ -23,7 +23,6 @@ alias svshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
 alias sv='svn'
 alias svimport='sv import'
 alias svcheckout='sv checkout'
-alias svstatus='sv status'
 alias svstatusremote='sv status --show-updates' # Show status here and on the server
 alias svcommit='sv commit'
 alias svadd='sv add'
@@ -37,6 +36,10 @@ alias svdeleteall='sv status | grep "^\!" | awk "{print \$2}" | xargs svn delete
 
 svupdate (){
   sv update | highlight red "C .*" green "G .*" blue "A .*" yellow "D .*"
+}
+
+svstatus (){
+  sv status | highlight red "D .*" green "\? .*" blue "A .*"
 }
 
 svgetinfo (){
