@@ -1,12 +1,12 @@
 # Subversion & Diff ------------------------------------------------
 export SVN_EDITOR='${EDITOR}'
 
-alias svshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
+alias svshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}sv
    ${COLOR_BLUE}sv${COLOR_NC}help
    ${COLOR_BLUE}sv${COLOR_NC}import    ${COLOR_GRAY}Example: import ~/projects/my_local_folder http://svn.foo.com/bar
    ${COLOR_BLUE}sv${COLOR_NC}checkout  ${COLOR_GRAY}Example: svcheckout http://svn.foo.com/bar
-   ${COLOR_BLUE}sv${COLOR_NC}status    
+   ${COLOR_BLUE}sv${COLOR_NC}status
    ${COLOR_BLUE}sv${COLOR_NC}status${COLOR_BLUE}remote
    ${COLOR_BLUE}sv${COLOR_NC}add       ${COLOR_GRAY}Example: svadd your_file
    ${COLOR_BLUE}sv${COLOR_NC}add${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
@@ -19,7 +19,7 @@ alias svshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}sv${COLOR_NC}blame     ${COLOR_GRAY}Example: svblame your_file
    ${COLOR_BLUE}sv${COLOR_NC}delete${COLOR_BLUE}svn${COLOR_NC}folders   ${COLOR_GRAY}Example: svdeletesvnfolders
 '"
-   
+
 alias sv='svn'
 alias svimport='sv import'
 alias svcheckout='sv checkout'
@@ -62,19 +62,19 @@ alias gtshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}gt${COLOR_NC}commit
    ${COLOR_BLUE}gt${COLOR_NC}add       ${COLOR_GRAY}Example: gtadd your_file
    ${COLOR_BLUE}gt${COLOR_NC}add${COLOR_BLUE}all${COLOR_NC}    ${COLOR_GRAY}Note: adds all files not in repository [recursively]
-   ${COLOR_BLUE}gt${COLOR_NC}show    
-   ${COLOR_BLUE}gt${COLOR_NC}diff    
+   ${COLOR_BLUE}gt${COLOR_NC}show
+   ${COLOR_BLUE}gt${COLOR_NC}diff
    ${COLOR_BLUE}gt${COLOR_NC}diff${COLOR_BLUE}staged${COLOR_NC}
-   ${COLOR_BLUE}gt${COLOR_NC}push    
+   ${COLOR_BLUE}gt${COLOR_NC}push
    ${COLOR_BLUE}gt${COLOR_NC}pull
-   ${COLOR_BLUE}gt${COLOR_NC}fetch    
+   ${COLOR_BLUE}gt${COLOR_NC}fetch
    ${COLOR_BLUE}gt${COLOR_NC}checkout  ${COLOR_GRAY}(like svn revert) Example: gtcheckout your_file  
-   ${COLOR_BLUE}gt${COLOR_NC}blame    
-   ${COLOR_BLUE}gt${COLOR_NC}log    
+   ${COLOR_BLUE}gt${COLOR_NC}blame
+   ${COLOR_BLUE}gt${COLOR_NC}log
    ${COLOR_BLUE}gt${COLOR_NC}log${COLOR_BLUE}stat${COLOR_NC}
-   ${COLOR_BLUE}gt${COLOR_NC}status    
+   ${COLOR_BLUE}gt${COLOR_NC}status
 '"
-   
+
 alias gt='git'
 alias gtclone='gt clone'
 alias gtcommit='gt commit'
@@ -94,6 +94,13 @@ alias gtblame='gt blame'
 alias gtlog='gt log'
 alias gtlogstat='gt log --stat'
 alias gtstatus='gt status'
+alias gtmerge='gt merge'
+alias gtmergehead='gt merge origin/master'
+alias gttagadd='gt tag -a'
+alias gttaglist='gt tag -l'
+alias gtbranch='gt branch'
+alias gtbranchdelete='gt branch -d'
+alias gtbranchlistall='gt branch -a'
 
 
 
@@ -134,10 +141,10 @@ rrtestsummary(){
 
 alias rrmigrate='rake db:migrate'
 rrmigratedown (){
- 	rake db:migrate:down VERSION=$@
+  rake db:migrate:down VERSION=$@
 }
 rrmigrateup (){
- 	rake db:migrate:up VERSION=$@
+  rake db:migrate:up VERSION=$@
 }
 alias rrmigratetest='rake db:migrate RAILS_ENV="test"'
 
@@ -159,20 +166,20 @@ alias mqshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
 export MYSQL_DEFAULT_DB=mysql
 
 mqusedatabase (){
-	export MYSQL_DEFAULT_DB=$@
+  export MYSQL_DEFAULT_DB=$@
 }
 
 mqrun (){
-	mysql -u root -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
+  mysql -u root -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
 }
 mqrunfile (){
-	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
+  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
 }
 mqrunfiletofile (){
-	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
+  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
 }
 mqrunfiletoeditor (){
-	mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
+  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
 }
 
 alias mqlistdatabases='mqrun "show databases"' 

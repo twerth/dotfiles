@@ -151,8 +151,13 @@ set vb t_vb= " Turn off the bell, this could be more annoying, but I'm not sure 
 
 " Set list Chars - for showing characters that are not
 " normally displayed i.e. whitespace, tabs, EOL
-"set listchars=trail:.,tab:>-,eol:$
-"set nolist
+function! Invisible_chars_show()
+  set listchars=trail:.,tab:>-,eol:$
+  set list
+endfunction
+function! Invisible_chars_hide()
+  set nolist
+endfunction
 
 
 " Mouse ***********************************************************************
