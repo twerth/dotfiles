@@ -3,28 +3,31 @@
 " |                   (see gvimrc for gui vim settings)                       |
 " |                                                                           |
 " | Some highlights:                                                          |
-" | jj = <esc>  Very useful for keeping your hands on the home row            |
-" | ,n = toggle NERDTree off and on                                           |
+" |   jj = <esc>  Very useful for keeping your hands on the home row          |
+" |   ,n = toggle NERDTree off and on                                         |
 " |                                                                           |
-" | ,f = fuzzy find all files                                                 |
-" | ,b = fuzzy find in all buffers                                            |
+" |   ,f = fuzzy find all files                                               |
+" |   ,b = fuzzy find in all buffers                                          |
 " |                                                                           |
-" | hh = inserts '=>'                                                         |
-" | aa = inserts '@'                                                          |
+" |   hh = inserts '=>'                                                       |
+" |   aa = inserts '@'                                                        |
 " |                                                                           |
-" | ,h = new horizontal window                                                |
-" | ,v = new vertical window                                                  |
+" |   ,h = new horizontal window                                              |
+" |   ,v = new vertical window                                                |
 " |                                                                           |
-" | ,f = fuzzy find all files                                                 |
-" | ,b = fuzzy find all buffers                                               |
+" |   ,i = toggle invisibles                                                  |
 " |                                                                           |
-" | enter and shift-enter = adds a new line after and before the current line |
+" |   enter and shift-enter = adds a new line after/before the current line   |
 " |                                                                           |
-" | :call Tabstyle_tabs = set tab to real tabs                                |
-" | :call Tabstyle_spaces = set tab to 2 spaces                               |
+" |   :call Tabstyle_tabs = set tab to real tabs                              |
+" |   :call Tabstyle_spaces = set tab to 2 spaces                             |
+" |                                                                           |
+" | Put machine/user specific settings in ~/.vimrc.local                      |
 " -----------------------------------------------------------------------------  
 
+
 set nocompatible
+
 
 " Tabs ************************************************************************
 "set sta " a <Tab> in an indent inserts 'shiftwidth' spaces
@@ -49,11 +52,7 @@ function! Tabstyle_spaces()
   set expandtab
 endfunction
 
-if hostname() == "Laptop.local"
-  call Tabstyle_spaces()
-else
-  call Tabstyle_tabs() 
-endif
+call Tabstyle_spaces()
 
 
 " Indenting *******************************************************************
@@ -106,7 +105,7 @@ set linebreak  " Wrap at word
 
 
 " Mappings ********************************************************************
-" Professor VIM says '87% of users prefer jj over esc', jj abrams strongly disagrees
+" Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 imap jj <Esc>
 imap uu _
 imap hh =>
@@ -147,17 +146,13 @@ set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
 set backspace=indent,eol,start
 set number " Show line numbers
 set matchpairs+=<:>
-set vb t_vb= " Turn off the bell, this could be more annoying, but I'm not sure how
+set vb t_vb= " Turn off bell, this could be more annoying, but I'm not sure how
 
-" Set list Chars - for showing characters that are not
-" normally displayed i.e. whitespace, tabs, EOL
-function! Invisible_chars_show()
-  set listchars=trail:.,tab:>-,eol:$
-  set list
-endfunction
-function! Invisible_chars_hide()
-  set nolist
-endfunction
+
+" Invisible characters *********************************************************
+set listchars=trail:.,tab:>-,eol:$
+set nolist
+:noremap ,i :set list!<CR> " Toggle invisible chars
 
 
 " Mouse ***********************************************************************
@@ -190,12 +185,13 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete " may require ruby compiled in
+" May require ruby compiled in
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
 
 
 
 " -----------------------------------------------------------------------------  
-" |                              Pluggins                                     |
+" |                              Plug-ins                                     |
 " -----------------------------------------------------------------------------  
 
 " NERDTree ********************************************************************
@@ -253,3 +249,16 @@ let g:AutoComplPop_BehaviorKeywordLength = 2
 " -----------------------------------------------------------------------------  
 " Open NERDTree on start
 "autocmd VimEnter * exe 'NERDTree' | wincmd l 
+
+
+
+" -----------------------------------------------------------------------------  
+" |                               Host specific                               |
+" -----------------------------------------------------------------------------  
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
+
+"if hostname() == "foo"
+  " do something
+"endif
