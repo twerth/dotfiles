@@ -23,11 +23,11 @@ snippet def
 # cleaner, I don't know how to do it in vim script)
 snippet once
 	#ifndef ${1:`toupper(Filename('', 'UNTITLED').'_'.system("/usr/bin/ruby -e 'print (rand * 2821109907455).round.to_s(36)'"))`}
-
+	
 	#define $1
-
+	
 	${2}
-
+	
 	#endif /* end of include guard: $1 */
 # If Condition
 snippet if

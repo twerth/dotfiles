@@ -81,7 +81,7 @@ fun s:ProcessSnippet(snip)
 	while stridx(snippet, '${'.i) != -1
 		let s = matchstr(snippet, '${'.i.':\zs.\{-}\ze}')
 		if s != ''
-			let snippet = substitute(snippet, '$'.i, '&'.s, 'g')
+			let snippet = substitute(snippet, '$'.i, s.'&', 'g')
 		endif
 		let i += 1
 	endw
@@ -120,27 +120,27 @@ fun s:BuildTabStops(snip, lnum, col, indent)
 	let withoutVars = substitute(a:snip, '$\d\+', '', 'g')
 	while stridx(a:snip, '${'.i) != -1
 		let beforeTabStop = matchstr(withoutVars, '^.*\ze${'.i.'\D')
-		let withoutOthers = substitute(withoutVars, '${'.i.'\@!\d\+.\{-}}', '', 'g')
-		let snipPos += [[a:lnum + s:Count(beforeTabStop, "\n"),
-						\ a:indent + len(matchstr(withoutOthers,
-						\ "^.*\\(\n\\|^\\)\\zs.*\\ze${".i.'\D')), -1]]
-		if snipPos[i-1][0] == a:lnum
-			let snipPos[i-1][1] += a:col
-		endif
+		let withoutOthers = substitute(withoutVars, '${\('.i.'\D\)\@!\d\+.\{-}}', '', 'g')
+
+		let j = i - 1
+		call add(snipPos, [0, 0, -1])
+		let snipPos[j][0] = a:lnum + s:Count(beforeTabStop, "\n")
+		let snipPos[j][1] = a:indent + len(matchstr(withoutOthers, '.*\(\n\|^\)\zs.*\ze${'.i.'\D'))
+		if snipPos[j][0] == a:lnum | let snipPos[j][1] += a:col | endif
 
 		" Get all $# matches in another list, if ${#:name} is given
 		if stridx(withoutVars, '${'.i.':') != -1
-			let j = i - 1
 			let snipPos[j][2] = len(matchstr(withoutVars, '${'.i.':\zs.\{-}\ze}'))
-			let snipPos[j] += [[]]
+			let dots = repeat('.', snipPos[j][2])
+			call add(snipPos[j], [])
 			let withoutOthers = substitute(a:snip, '${\d\+.\{-}}\|$'.i.'\@!\d\+', '', 'g')
 			while match(withoutOthers, '$'.i.'\D') != -1
-				let beforeMark = matchstr(withoutOthers, '^.\{-}\ze$'.i.'\D')
-				let linecount = a:lnum + s:Count(beforeMark, "\n")
-				let snipPos[j][3] += [[linecount,
-							\ a:indent + (linecount > a:lnum
-							\ ? len(matchstr(beforeMark, "^.*\n\\zs.*"))
-							\ : a:col + len(beforeMark))]]
+				let beforeMark = matchstr(withoutOthers, '^.\{-}\ze'.dots.'$'.i.'\D')
+				call add(snipPos[j][3], [0, 0])
+				let snipPos[j][3][-1][0] = a:lnum + s:Count(beforeMark, "\n")
+				let snipPos[j][3][-1][1] = a:indent + (snipPos[j][3][-1][0] > a:lnum
+				                           \ ? len(matchstr(beforeMark, '.*\n\zs.*'))
+				                           \ : a:col + len(beforeMark))
 				let withoutOthers = substitute(withoutOthers, '$'.i.'\ze\D', '', '')
 			endw
 		endif

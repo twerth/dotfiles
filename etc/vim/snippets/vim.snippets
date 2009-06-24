@@ -3,8 +3,6 @@ snippet header
 	" Author: ${2:`g:snips_author`}
 	" Description: ${3}
 	${4:" Last Modified: `strftime("%B %d, %Y")`}
-snippet lm
-	" Last Modified: `strftime("%B %d, %Y")`
 snippet guard
 	if exists('${1:did_`Filename()`}') || &cp${2: || version < 700}
 		finish

@@ -3,7 +3,7 @@ snippet php
 	${1}
 	?>
 snippet ec
-	echo "${1:string}";${2}
+	echo "${1:string}"${2};
 snippet inc
 	include '${1:file}';${2}
 snippet inc1
@@ -119,7 +119,7 @@ snippet doc_h
 	 * @copyright ${4:$2}, `strftime('%d %B, %Y')`
 	 * @package ${5:default}
 	 **/
-
+	
 	/**
 	 * Define DocBlock
 	 *//

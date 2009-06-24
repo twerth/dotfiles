@@ -131,6 +131,13 @@ alias v=vim
 
 
 
+# Sluething----------------------------------------------------
+findportuser() {
+    lsof -i :"$1"
+}
+
+
+
 # Other aliases ----------------------------------------------------
 alias ll='ls -hl'
 alias la='ls -a'
@@ -164,6 +171,10 @@ alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' 
 alias untar="tar xvzf"
 
 alias cp_folder="cp -Rpv" #copies folder and all sub files and folders, preserving security and dates
+
+killhard() {
+    kill -9 "$1"
+}
 
 
 

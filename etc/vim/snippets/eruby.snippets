@@ -10,37 +10,27 @@ snippet rce
 snippet end
 	<% end -%>${1}
 snippet for
-	<% unless ${1:list}.blank? %>
-		<% for ${2:item} in $1 %>
-			${3}
-		<% end %>
-	<% end %>
-snippet forelse
-	<% unless ${1:list}.blank? %>
-		<% for ${2:item} in $1 %>
-			${3}
-		<% end %>
-	<% else %>
-		${4}
+	<% for ${2:item} in $1 %>
+		${3}
 	<% end %>
 snippet rp
-	render :partial => "${1:item}"
+	<%= render :partial => '${1:item}' %>
 snippet rpl
-	render :partial => "${1:item}", :locals => { :${2:name} => "${3:value}"$4 }
+	<%= render :partial => '${1:item}', :locals => { :${2:name} => '${3:value}'$4 } %>
 snippet rps
-	render :partial => "${1:item}", :status => ${2:500}
+	<%= render :partial => '${1:item}', :status => ${2:500} %>
 snippet rpc
-	render :partial => "${1:item}", :collection => ${2:items}
+	<%= render :partial => '${1:item}', :collection => ${2:items} %>
 snippet lia
-	<%= link_to "${1:link text...}", :action => "${2:index}" %>
+	<%= link_to '${1:link text...}', :action => '${2:index}' %>
 snippet liai
-	<%= link_to "${1:link text...}", :action => "${2:edit}", :id => ${3:@item} %>
+	<%= link_to '${1:link text...}', :action => '${2:edit}', :id => ${3:@item} %>
 snippet lic
-	<%= link_to "${1:link text...}", :controller => "${2:items}" %>
+	<%= link_to '${1:link text...}', :controller => '${2:items}' %>
 snippet lica
-	<%= link_to "${1:link text...}", :controller => "${2:items}", :action => "${3:index}" %>
+	<%= link_to '${1:link text...}', :controller => '${2:items}', :action => '${3:index}' %>
 snippet licai
-	<%= link_to "${1:link text...}", :controller => "${2:items}", :action => "${3:edit}", :id => ${4:@item} %>
+	<%= link_to '${1:link text...}', :controller => '${2:items}', :action => '${3:edit}', :id => ${4:@item} %>
 snippet yield
 	<%= yield${1::content_symbol}%>${2}
 snippet conf

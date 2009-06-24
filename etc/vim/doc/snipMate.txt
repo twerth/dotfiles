@@ -62,7 +62,7 @@ only be used outside of a snippet declaration. E.g.: >
  snippet trigger
  	expanded text
  snippet another_trigger
- 	# this isn't a comment!
+ 	# this doesn't work!
 	expanded text
 <
 This should hopefully be obvious with the included syntax highlighting.

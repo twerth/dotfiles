@@ -65,13 +65,20 @@ alias gtshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}gt${COLOR_NC}show
    ${COLOR_BLUE}gt${COLOR_NC}diff
    ${COLOR_BLUE}gt${COLOR_NC}diff${COLOR_BLUE}staged${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}merge
+   ${COLOR_BLUE}gt${COLOR_NC}merge${COLOR_BLUE}head${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}merge${COLOR_BLUE}with${COLOR_NC}tool
    ${COLOR_BLUE}gt${COLOR_NC}push
    ${COLOR_BLUE}gt${COLOR_NC}pull
    ${COLOR_BLUE}gt${COLOR_NC}fetch
-   ${COLOR_BLUE}gt${COLOR_NC}checkout  ${COLOR_GRAY}(like svn revert) Example: gtcheckout your_file  
+   ${COLOR_BLUE}gt${COLOR_NC}checkout  ${COLOR_GRAY}(like svn revert in some cases) Example: gtcheckout your_file or gtcheckout your_local_branch  
+   ${COLOR_BLUE}gt${COLOR_NC}checkout${COLOR_BLUE}initial${COLOR_NC}remote{COLOR_BLUE}branch${COLOR_NC}  ${COLOR_GRAY}Example: gtcheckoutinitialremotebranch your_branch  
    ${COLOR_BLUE}gt${COLOR_NC}blame
    ${COLOR_BLUE}gt${COLOR_NC}log
    ${COLOR_BLUE}gt${COLOR_NC}log${COLOR_BLUE}stat${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}branch
+   ${COLOR_BLUE}gt${COLOR_NC}branch${COLOR_BLUE}delete${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}branch${COLOR_BLUE}list${COLOR_NC}all
    ${COLOR_BLUE}gt${COLOR_NC}status
 '"
 
@@ -96,13 +103,16 @@ alias gtlogstat='gt log --stat'
 alias gtstatus='gt status'
 alias gtmerge='gt merge'
 alias gtmergehead='gt merge origin/master'
+alias gtmergewithtool='gt mergetool'
 alias gttagadd='gt tag -a'
 alias gttaglist='gt tag -l'
 alias gtbranch='gt branch'
 alias gtbranchdelete='gt branch -d'
 alias gtbranchlistall='gt branch -a'
 
-
+gtcheckoutinitialremotebranch (){
+  git checkout -tlb $1 origin/$1
+}
 
 # Rails and Rake -------------------------------------------------
 alias rrshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
