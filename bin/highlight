@@ -20,7 +20,7 @@ red=$(tput bold;tput setaf 1)            # bright red text
 green=$(tput setaf 2)                    # dim green text
 yellow=$(tput bold;tput setaf 3)         # bright yellow text
 fawn=$(tput setaf 3) ; beige=$fawn       # dark yellow text
-blue=$(tput bold;tput setaf 4)           # bright blue text
+blue=$(tput bold;tput setaf 4)           # blue text
 purple=$(tput setaf 5) ; magenta=$purple # magenta text
 pink=$(tput bold;tput setaf 5)           # bright magenta text
 cyan=$(tput bold;tput setaf 6)           # bright cyan text
