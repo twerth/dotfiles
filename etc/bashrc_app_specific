@@ -99,7 +99,6 @@ alias gtfetch='gt fetch'
 alias gthelp='gt help'
 alias gtpull='gt pull'
 alias gtremove='gt rm'
-alias gtcheckout='gt checkout'
 alias gtmove='gt mv'
 alias gtshow='gt show'
 alias gtblame='gt blame'
@@ -112,6 +111,8 @@ alias gttaglist='gt tag -l'
 alias gtbranch='gt branch'
 alias gtbranchdelete='gt branch -d'
 alias gtbranchlistall='gt branch -a'
+alias gtstash='gt stash'
+alias gtstashapply='gt stash apply'
 
 gtcommit(){
   gt commit -m "$@"
@@ -125,6 +126,10 @@ gtpushorigin(){
   gt push origin $@
 }
 
+gtcheckout (){
+  gt checkout $1
+  gt branch
+}
 gtcheckouttrackingbranch (){
   gt checkout -tlb $1 origin/$1
 }
