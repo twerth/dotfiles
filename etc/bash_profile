@@ -32,9 +32,9 @@ source ~/.bashrc
 
 # Hello Messsage --------------------------------------------------
 echo -e "Kernel Information: " `uname -smr`
-echo -e "${COLOR_BROWN}`bash --version`"
-echo -ne "${COLOR_GRAY}Uptime: "; uptime
-echo -ne "${COLOR_GRAY}Server time is: "; date
+echo -e "`bash --version`"
+echo -ne "Uptime: "; uptime
+echo -ne "Server time is: "; date
 
 
 

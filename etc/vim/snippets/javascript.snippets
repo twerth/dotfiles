@@ -12,13 +12,21 @@ snippet fun
 # Anonymous Function
 snippet f
 	function(${1}) {${2}};
+snippet fp
+	${1:method_name}: function(${2:attribute}){
+		${3://body...}
+	}${4:,}
 # if
 snippet if
-	if (${1:true}) {${2}};
+	if (${1:true})${2}
 # if ... else
 snippet ife
-	if (${1:true}) {${2}}
-	else {${3}};
+	if (${1:true}){
+		${2}
+	}
+	else {
+		${3}
+	};
 # tertiary conditional
 snippet t
 	${1:/* condition */} ? ${2:a} : ${3:b}
@@ -58,11 +66,6 @@ snippet do
 	do {
 		${2:/* code */}
 	} while (${1:/* condition */});
-# Object Method
-snippet :f
-	${1:method_name}: function(${2:attribute}) {
-		${4}
-	}${3:,}
 # setTimeout function
 snippet timeout
 	setTimeout(function() {${3}}${2}, ${1:10};
@@ -72,3 +75,14 @@ snippet get
 # Get Element
 snippet gett
 	getElementBy${1:Id}('${2}')${3}
+snippet $
+	$('${1:dom_id}')${2}
+snippet $$ 
+	$$('${1:dom_id}').each(function(item) { 
+		${2}
+	}.bind(this));
+snippet observe
+	.observe('${1:click}', function(event){ 
+		${2}
+	});
+

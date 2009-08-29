@@ -112,7 +112,10 @@ alias gtbranch='gt branch'
 alias gtbranchdelete='gt branch -d'
 alias gtbranchlistall='gt branch -a'
 alias gtstash='gt stash'
+alias gtstashsave='gt stash save'
+alias gtstashlist='gt stash list'
 alias gtstashapply='gt stash apply'
+alias gtmovelastcommittostaged='gt reset --soft HEAD^'
 
 gtcommit(){
   gt commit -m "$@"
@@ -132,6 +135,7 @@ gtcheckout (){
 }
 gtcheckouttrackingbranch (){
   gt checkout -tlb $1 origin/$1
+  gt branch
 }
 
 alias gtlog='gt log --name-status'

@@ -63,16 +63,35 @@ fi
 #set -o vi
 #bind -m vi-command -r 'v'
 
-
+# git completion
+source ~/cl/bin/git-completion.bash
 
 # Prompts ----------------------------------------------------------
-export PS1="\[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path
+#git_dirty_flag() {
+  #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
+#}
+
+prompt_func()
+{
+    previous_return_value=$?;
+    prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC}\[\033]0;\u@\h: \w\007\] "
+    #prompt="${COLOR_GREEN}\w${COLOR_NC}$(__git_ps1)${COLOR_YELLOW}$(git_dirty_flag)${COLOR_NC} "
+
+    if test $previous_return_value -eq 0
+    then
+        PS1="${prompt}➔ "
+    else
+        PS1="${prompt}${COLOR_RED}➔ ${COLOR_NC}"
+    fi
+}
+PROMPT_COMMAND=prompt_func
+
+# export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
 # export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
 # export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
-
 # This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
 # weird wrapping errors occur on some systems, so this method is superior
-export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} ${PWD}"; echo -ne "\007"'  # user@host path
+#export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/} ${USER}@${HOSTNAME%%.*}"; echo -ne "\007"'  # user@host path
 
 export PS2='> '    # Secondary prompt
 export PS3='#? '   # Prompt 3
