@@ -97,6 +97,7 @@ colorscheme ir_black
 set showcmd
 set ruler " Show ruler
 "set ch=2 " Make command line two lines high
+match CursorColumn '\%120v.*' " Show error format when a line is longer than 120 chars
 
 
 " Line Wrapping ***************************************************************

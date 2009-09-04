@@ -1,7 +1,6 @@
 # Awesome IRB (mod'd) file from http://github.com/logankoester/irbrc
 # Setup:
-# sudo gem install wirble
-# sudo gem install what_methods
+# sudo gem install wirble what_methods
 
 # Make gems available
 require 'rubygems'

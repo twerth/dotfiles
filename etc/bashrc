@@ -41,7 +41,9 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=3000
 export HISTIGNORE="ls:cd:[bf]g:exit:..:...:ll:lla"
 alias h=history
-alias hf='history | g'
+hf(){ 
+  grep "$@" ~/.bash_history
+}
 
 
 
@@ -71,8 +73,7 @@ source ~/cl/bin/git-completion.bash
   #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
 #}
 
-prompt_func()
-{
+prompt_func() {
     previous_return_value=$?;
     prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC}\[\033]0;\u@\h: \w\007\] "
     #prompt="${COLOR_GREEN}\w${COLOR_NC}$(__git_ps1)${COLOR_YELLOW}$(git_dirty_flag)${COLOR_NC} "
