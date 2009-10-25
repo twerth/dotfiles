@@ -183,6 +183,10 @@ rrtest(){
   date
 }
 
+rrtestsingle(){
+  rake test:units TEST="$@" | awk -F"," '{printf("%20s%20s%20s%20s\n", $1,$2,$3,$4)}' | highlight red " [1-9]0* failures" red " [1-9]0* errors"
+}
+
 rrtestsummary(){
   date
   rake | grep "tests," | awk -F"," '{printf("%20s%20s%20s%20s\n", $1,$2,$3,$4)}' | highlight red " [1-9]0* failures" red " [1-9]0* errors"

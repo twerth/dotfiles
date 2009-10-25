@@ -62,7 +62,7 @@ fi
 
 # Use vi command mode
 #bind "set editing-mode vi"
-#set -o vi
+set -o vi
 #bind -m vi-command -r 'v'
 
 # git completion
@@ -75,7 +75,8 @@ source ~/cl/bin/git-completion.bash
 
 prompt_func() {
     previous_return_value=$?;
-    prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC}\[\033]0;\u@\h: \w\007\] "
+    prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC} "
+    #prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC}\[\033]0;\u@\h: \w\007\] "
     #prompt="${COLOR_GREEN}\w${COLOR_NC}$(__git_ps1)${COLOR_YELLOW}$(git_dirty_flag)${COLOR_NC} "
 
     if test $previous_return_value -eq 0
