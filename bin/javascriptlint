@@ -1,0 +1,3 @@
+#!/bin/bash
+
+jsl -nologo -process $1 -conf ~/cl/etc/jsl.conf | highlight red "SyntaxError" green "^\.*\^" yellow "^[0-9]* " cyan "|.*|"
