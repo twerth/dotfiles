@@ -81,9 +81,9 @@ prompt_func() {
 
     if test $previous_return_value -eq 0
     then
-        PS1="${prompt}➔ "
+        PS1="${prompt}> "
     else
-        PS1="${prompt}${COLOR_RED}➔ ${COLOR_NC}"
+        PS1="${prompt}${COLOR_RED}: ${COLOR_NC}"
     fi
 }
 PROMPT_COMMAND=prompt_func

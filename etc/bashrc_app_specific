@@ -149,7 +149,7 @@ gtloggrep(){
 }
 
 gtgrep(){
-  gt grep -e "$@" | highlight green "$@" blue "^.*\:"
+  gt grep -n -e "$@" | highlight green "$@" blue "^.*\:"
 }
 
 
@@ -206,15 +206,15 @@ alias rrmigratetest='rake db:migrate RAILS_ENV="test"'
 
 # MySQL ------------------------------------------------
 alias mqshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands: 
-   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}databases${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}databases${COLOR_NC}
    ${COLOR_BLUE}mq${COLOR_NC}use${COLOR_BLUE}database${COLOR_NC}
    ${COLOR_BLUE}mq${COLOR_NC}create${COLOR_BLUE}database${COLOR_NC}
    ${COLOR_BLUE}mq${COLOR_NC}drop${COLOR_BLUE}database${COLOR_NC}
-   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}tables${COLOR_NC}
-   ${COLOR_BLUE}mq${COLOR_NC}list${COLOR_BLUE}fields${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}tables${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}fields${COLOR_NC}
    ${COLOR_BLUE}mq${COLOR_NC}run              ${COLOR_GRAY}Example: mqrun \"Select id From foo\"
-   ${COLOR_BLUE}mq${COLOR_NC}run${COLOR_BLUE}file${COLOR_NC}          ${COLOR_GRAY}Example: mqrunfile file_name
-   ${COLOR_BLUE}mq${COLOR_NC}run${COLOR_BLUE}file${COLOR_NC}to${COLOR_BLUE}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
+   ${COLOR_BLUE}mq${COLOR_NC}file${COLOR_BLUE}run${COLOR_NC}          ${COLOR_GRAY}Example: mqfilerun file_name
+   ${COLOR_BLUE}mq${COLOR_NC}file${COLOR_BLUE}run${COLOR_NC}to${COLOR_BLUE}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
 '"
 
 export MYSQL_DEFAULT_DB=mysql
@@ -226,19 +226,19 @@ mqusedatabase (){
 mqrun (){
   mysql -u root -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
 }
-mqrunfile (){
+mqfilerun (){
   mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
 }
-mqrunfiletofile (){
+mqfileruntofile (){
   mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
 }
 mqrunfiletoeditor (){
   mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
 }
 
-alias mqlistdatabases='mqrun "show databases"' 
-alias mqlisttables='mqrun  "show tables"' 
-mqlistfields(){
+alias mqdatabases='mqrun "show databases"' 
+alias mqtables='mqrun  "show tables"' 
+mqfields(){
   mqrun "describe $@"
 }
 

@@ -6,5 +6,9 @@ let s:did_snip_helper = 1
 
 " Automatically closes tag if in xhtml
 fun! Close()
-	return stridx(&ft, 'xhtml') == -1 ? '' : ' /'
+	if (!exists("g:force_xhtml"))
+		let g:force_xhtml=0
+	endif
+	
+	return (g:force_xhtml != 1 && stridx(&ft, 'xhtml') == -1) ? '' : ' /'
 endf

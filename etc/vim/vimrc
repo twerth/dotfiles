@@ -263,3 +263,11 @@ endif
 "if hostname() == "foo"
   " do something
 "endif
+
+" Example .vimrc.local:
+
+"call Tabstyle_tabs()
+"colorscheme ir_dark
+"match LongLineWarning '\%120v.*'
+
+"autocmd User ~/git/some_folder/* call Tabstyle_spaces() | let g:force_xhtml=1
