@@ -75,15 +75,14 @@ source ~/cl/bin/git-completion.bash
 
 prompt_func() {
     previous_return_value=$?;
-    prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC} "
-    #prompt="${COLOR_GREEN}\w${COLOR_GRAY}$(__git_ps1)${COLOR_NC}\[\033]0;\u@\h: \w\007\] "
-    #prompt="${COLOR_GREEN}\w${COLOR_NC}$(__git_ps1)${COLOR_YELLOW}$(git_dirty_flag)${COLOR_NC} "
+    prompt="\[${COLOR_GREEN}\[\w\[${COLOR_GRAY}\[$(__git_ps1)\[${COLOR_NC}\[ "
+    #prompt="\[${COLOR_GREEN}\[\w\[${COLOR_GRAY}\[$(__git_ps1)\[${COLOR_YELLOW}\[$(git_dirty_flag)\[${COLOR_NC}\[ "
 
     if test $previous_return_value -eq 0
     then
         PS1="${prompt}> "
     else
-        PS1="${prompt}${COLOR_RED}: ${COLOR_NC}"
+        PS1="${prompt}\[${COLOR_RED}\[: \[${COLOR_NC}\["
     fi
 }
 PROMPT_COMMAND=prompt_func
