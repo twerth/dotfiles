@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo 'Watching public/javascripts/**/*.js'
+rstakeout 'javascriptlint' 'public/javascripts/**/*.js' -f -q
