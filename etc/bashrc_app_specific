@@ -215,25 +215,41 @@ alias mqshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}mq${COLOR_NC}run              ${COLOR_GRAY}Example: mqrun \"Select id From foo\"
    ${COLOR_BLUE}mq${COLOR_NC}file${COLOR_BLUE}run${COLOR_NC}          ${COLOR_GRAY}Example: mqfilerun file_name
    ${COLOR_BLUE}mq${COLOR_NC}file${COLOR_BLUE}run${COLOR_NC}to${COLOR_BLUE}file${COLOR_NC}    ${COLOR_GRAY}Example: mqrunfiletofile file_name out_file_name
+   ${COLOR_BLUE}mq${COLOR_NC}all${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}all${COLOR_BLUE}count${COLOR_NC}
+   ${COLOR_BLUE}mq${COLOR_NC}all${COLOR_BLUE}grep${COLOR_NC}
 '"
 
 export MYSQL_DEFAULT_DB=mysql
+export MYSQL_DEFAULT_USER=root
 
 mqusedatabase (){
   export MYSQL_DEFAULT_DB=$@
+  mqtables
 }
 
 mqrun (){
-  mysql -u root -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
+  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "$@" | highlight blue '[|+-]'
 }
 mqfilerun (){
-  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
+  mysql -u ${MYSQL_DEFAULT_USER} -t -vvv ${MYSQL_DEFAULT_DB} < $@ | highlight blue '[|+-]'
 }
 mqfileruntofile (){
-  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
+  mysql -u ${MYSQL_DEFAULT_USER} -t -vvv ${MYSQL_DEFAULT_DB} < $1 >> $2
 }
 mqrunfiletoeditor (){
-  mysql -u root -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
+  mysql -u ${MYSQL_DEFAULT_USER} -t -vvv ${MYSQL_DEFAULT_DB} < $1 | vim - 
+}
+
+mqall (){
+  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $@" | highlight blue '[|+-]'
+}
+mqallcount (){
+  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select count(*) from $@" | highlight blue '[|+-]'
+}
+
+mqallgrep (){
+  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1" | g "$2"
 }
 
 alias mqdatabases='mqrun "show databases"' 
@@ -243,11 +259,11 @@ mqfields(){
 }
 
 mqcreatedatabase(){
-  mysqladmin -u root create $@
+  mysqladmin -u ${MYSQL_DEFAULT_USER} create $@
   echo "$@ Created" | highlight blue '.*'
 }
 
 mqdropdatabase(){
   echo Warning | highlight red '.*'
-  mysqladmin -u root drop $@ 
+  mysqladmin -u ${MYSQL_DEFAULT_USER} drop $@ 
 }

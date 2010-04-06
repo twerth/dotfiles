@@ -55,10 +55,16 @@ bind "set completion-ignore-case on" # note: bind used instead of sticking these
 bind "set bell-style none" # no bell
 bind "set show-all-if-ambiguous On" # show list automatically, without double tab
 
-# Turn on advanced bash completion if the file exists (get it here: http://www.caliban.org/bash/index.shtml#completion)
+# Turn on advanced bash completion if the file exists 
+# Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
+# on OSX: sudo port install bash-completion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+if [ -f /opt/local/etc/bash_completion ]; then
+	. /opt/local/etc/bash_completion
+fi
+
 
 # Use vi command mode
 #bind "set editing-mode vi"
