@@ -225,7 +225,7 @@ export MYSQL_DEFAULT_USER=root
 
 mqusedatabase (){
   export MYSQL_DEFAULT_DB=$@
-  mqtables
+  mqrun  "show tables"
 }
 
 mqrun (){
