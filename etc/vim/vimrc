@@ -213,10 +213,21 @@ let NERDTreeMouseMode=1
 "let g:snip_set_textmate_cp = '1'  " Tab to expand snippets, not automatically.
 
 
-" fuzzyfinder_textmate ********************************************************
-map ,f :FuzzyFinderTextMate<CR>
-map ,b :FuzzyFinderBuffer<CR>
+" CommandT ********************************************************
+  " To compile:
+  " cd ~/cl/etc/vim/ruby/command-t
+  " ruby extconf.rb
+  " make
+let g:CommandTMatchWindowAtTop = 1
+map ,f :CommandT<CR>
+
+
+" fuzzyfinder ********************************************************
+" I'm using CommandT for main searching, but it doesn't do buffers, so I'm
+" using FuzzyFinder for that
+map ,b :FufBuffer<CR>
 "let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
+
 
 " autocomplpop ***************************************************************
 " complete option
