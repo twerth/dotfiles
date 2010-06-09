@@ -1,0 +1,31 @@
+#!/bin/sh
+
+g(){
+  ack $@ --color-match=green --color-filename=blue --smart-case
+}
+gw(){
+  ack $@ --color-match=green --color-filename=blue --word-regexp --smart-case
+}
+f(){
+  ack -i -g .*$@[^\/]*$ | highlight blue ".*/" green "$@[^/]"
+}
+
+echo
+echo "Investigating: $1" | highlight purple "^.*:"
+
+echo
+echo "Located in these files ------------------------------------------------------------------------------" | highlight purple ".*"
+gw "$1" --files-with-matches --count | highlight blue ".*/" red ":.*"
+
+echo
+echo "Set here --------------------------------------------------------------------------------------------" | highlight purple ".*"
+g "^\s*@?$1\s*="
+
+echo
+echo "Defined here ----------------------------------------------------------------------------------------" | highlight purple ".*" 
+g "^\s*def\s+$1\s+" --nogroup # where is it defined in ruby
+g "^\s*$1\s*:\s*function\(.*\){" --nogroup # where is it defined in javascript
+
+echo
+echo "For more detail, use: g '$1'" | highlight purple "^.*:" 
+echo

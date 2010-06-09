@@ -142,7 +142,7 @@ export EDITOR='vim'  #Command line
 export GIT_EDITOR='vim'
 #alias gvim='/Applications/MacVim.app/Contents/MacOS/vim -g'
 alias v=vim
-# Use mvim in cl/bin to open MacVim
+alias mvimt='mvim --remote-tab'
 
 
 
@@ -171,11 +171,16 @@ alias la='ls -a'
 alias lla='ls -lah'
 
 # Search
-alias g='grep -i'  # Case insensitive grep
-gns(){ # Case insensitive, excluding svn folders
-  find . -path '*/.svn' -prune -o -type f -print0 | xargs -0 grep -I -n -e "$1"
+g(){
+  ack $@ --color-match=green --color-filename=blue --smart-case
 }
-alias f='find . -iname'
+gw(){
+  ack $@ --color-match=green --color-filename=blue --word-regexp --smart-case
+}
+#alias f='find . -iname'
+f(){
+  ack -i -g .*$@[^\/]*$ | highlight blue ".*/" green "$@[^/]"
+}
 
 # Misc
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
@@ -188,7 +193,6 @@ fi
 
 alias systail='tail -f /var/log/system.log'
 alias m='more'
-alias rak='rak -a'
 
 alias df='df -h' # Show disk usage
 

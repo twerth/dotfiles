@@ -85,6 +85,11 @@ alias gtshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}gt${COLOR_NC}branch${COLOR_BLUE}delete${COLOR_NC}
    ${COLOR_BLUE}gt${COLOR_NC}branch${COLOR_BLUE}list${COLOR_NC}all
    ${COLOR_BLUE}gt${COLOR_NC}status
+   ${COLOR_BLUE}gt${COLOR_NC}stash
+   ${COLOR_BLUE}gt${COLOR_NC}stash${COLOR_BLUE}save${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}stash${COLOR_BLUE}list${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}stash${COLOR_BLUE}apply${COLOR_NC}
+   ${COLOR_BLUE}gt${COLOR_NC}move${COLOR_BLUE}last${COLOR_NC}committostaged
 '"
 
 alias gt='git'
@@ -131,11 +136,9 @@ gtpushorigin(){
 
 gtcheckout (){
   gt checkout $1
-  gt branch
 }
 gtcheckouttrackingbranch (){
   gt checkout -tlb $1 origin/$1
-  gt branch
 }
 
 alias gtlog='gt log --name-status'
@@ -149,7 +152,7 @@ gtloggrep(){
 }
 
 gtgrep(){
-  gt grep -n -e "$@" | highlight green "$@" blue "^.*\:"
+  gt grep -n --ignore-case -e "$@" | highlight green "$@" blue "^.*\:"
 }
 
 
@@ -249,10 +252,14 @@ mqallcount (){
 }
 
 mqallgrep (){
-  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1" | g "$2"
+  mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1" | g "($2)"
 }
 
-alias mqdatabases='mqrun "show databases"' 
+mqdatabases (){
+  mqrun "show databases"
+  echo -e "\nCurrent DB: ${MYSQL_DEFAULT_DB}"
+}
+
 alias mqtables='mqrun  "show tables"' 
 mqfields(){
   mqrun "describe $@"
