@@ -336,7 +336,7 @@ snippet ts
 	require "tc_${1:test_case_file}"
 	require "tc_${2:test_case_file}"${3}
 snippet as
-	assert ${1:test}, "${2:Failure message.}"
+	assert ${1:test}
 snippet ase
 	assert_equal ${1:expected}, ${2:actual}
 snippet asne
@@ -425,3 +425,15 @@ snippet ps
 	puts '${1}'${2}
 snippet pd
 	puts "${1}"${2}
+snippet dputs 
+	puts "\n\n\n********************#{${1}}\n\n\n"
+snippet should
+	should '${1}' do
+		${2}
+	end
+snippet context 
+	context '${1}' do
+		setup do
+			${2}
+		end
+	end

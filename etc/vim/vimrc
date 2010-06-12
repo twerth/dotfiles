@@ -8,6 +8,7 @@
 " |                                                                           |
 " |   ,f = fuzzy find all files                                               |
 " |   ,b = fuzzy find in all buffers                                          |
+" |   ,p = go to previous file                                                |
 " |                                                                           |
 " |   hh = inserts '=>'                                                       |
 " |   aa = inserts '@'                                                        |
@@ -25,8 +26,10 @@
 " | Put machine/user specific settings in ~/.vimrc.local                      |
 " -----------------------------------------------------------------------------  
 
+
 set nocompatible
 let mapleader = ","
+imap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
 
 
 " Tabs ************************************************************************
@@ -57,7 +60,7 @@ call Tabstyle_spaces()
 
 " Indenting *******************************************************************
 set ai " Automatically set the indent of a new line (local to buffer)
-set si " smartindent	(local to buffer)
+set si " smartindent (local to buffer)
 
 
 " Scrollbars ******************************************************************
@@ -81,7 +84,7 @@ set cursorline
 
 " Searching *******************************************************************
 set hlsearch  " highlight search
-set incsearch  " incremental search, search as you type
+set incsearch  " Incremental search, search as you type
 set ignorecase " Ignore case when searching 
 set smartcase " Ignore case when searching lowercase
 
@@ -121,13 +124,13 @@ set linebreak  " Wrap at word
 filetype plugin indent on
 " To show current filetype use: set filetype
 
-"autocmd FileType html :set filetype=xhtml 
+"autocmd FileType html :set filetype=xhtml
 
 
 " Insert New Line *************************************************************
 map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
 map <Enter> o<ESC>
-set fo-=r " do not insert a comment leader after an enter, (no work, fix!!)
+"set fo-=r " do not insert a comment leader after an enter, (no work, fix!!)
 
 
 " Sessions ********************************************************************
@@ -147,7 +150,16 @@ set nolist
 "set selectmode=mouse
 
 
-" Cursor Movement *************************************************************
+" Misc settings ***************************************************************
+set backspace=indent,eol,start
+set number " Show line numbers
+set matchpairs+=<:>
+set vb t_vb= " Turn off bell, this could be more annoying, but I'm not sure how
+set nofoldenable " Turn off folding 
+
+
+" Navigation ******************************************************************
+
 " Make cursor move by visual lines instead of file lines (when wrapping)
 map <up> gk
 map k gk
@@ -156,6 +168,8 @@ map <down> gj
 map j gj
 imap <down> <C-o>gj
 map E ge
+
+map <Leader>p <C-^> " Go to previous file
 
 
 " Ruby stuff ******************************************************************
@@ -175,18 +189,10 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
 
 
-" Misc ************************************************************************
-set backspace=indent,eol,start
-set number " Show line numbers
-set matchpairs+=<:>
-set vb t_vb= " Turn off bell, this could be more annoying, but I'm not sure how
-set nofoldenable " Turn off folding 
-
+" Hard to type *****************************************************************
 imap uu _
 imap hh =>
 imap aa @
-" Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
-imap jj <Esc>
 
 
 " -----------------------------------------------------------------------------  
@@ -195,12 +201,17 @@ imap jj <Esc>
 
 " NERDTree ********************************************************************
 :noremap <Leader>n :NERDTreeToggle<CR>
+let NERDTreeHijackNetrw=1 " User instead of Netrw when doing an edit /foobar
+let NERDTreeMouseMode=1 " Single click for everything
 
-" User instead of Netrw when doing an edit /foobar
-let NERDTreeHijackNetrw=1
 
-" Single click for everything
-let NERDTreeMouseMode=1
+" NERD Commenter **************************************************************
+let NERDCreateDefaultMappings=0 " I turn this off to make it simple
+
+" Toggle commenting on 1 line or all selected lines. Wether to comment or not
+" is decided based on the first line; if it's not commented then all lines
+" will be commented
+:map <Leader>c :call NERDComment(0, "toggle")<CR> 
 
 
 " SnippetsEmu *****************************************************************
@@ -235,6 +246,10 @@ map <Leader>b :FufBuffer<CR>
 let g:AutoComplPop_IgnoreCaseOption = 0
 let g:AutoComplPop_BehaviorKeywordLength = 2
 
+
+" railsvim ***************************************************************
+map <Leader>ra :AS<CR>
+map <Leader>rs :RS<CR>
 
 
 " -----------------------------------------------------------------------------  

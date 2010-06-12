@@ -24,7 +24,7 @@ blue=$(tput bold;tput setaf 4)           # blue text
 purple=$(tput setaf 5) ; magenta=$purple # magenta text
 pink=$(tput bold;tput setaf 5)           # bright magenta text
 cyan=$(tput bold;tput setaf 6)           # bright cyan text
-gray=$(tput setaf 7)                     # dim white text
+gray=$(tput setaf 8)                     # dim white text
 white=$(tput bold;tput setaf 7)          # bright white text
 normal=$(tput sgr0)                      # normal text
 
