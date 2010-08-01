@@ -46,14 +46,10 @@ hf(){
 }
 
 
-
-# Misc -------------------------------------------------------------
-shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
-
-# bash completion settings (actually, these are readline settings)
+# Completion -------------------------------------------------------
 bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
-bind "set bell-style none" # no bell
 bind "set show-all-if-ambiguous On" # show list automatically, without double tab
+bind "set bell-style none" # no bell
 
 # Turn on advanced bash completion if the file exists 
 # Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
@@ -65,14 +61,22 @@ if [ -f /opt/local/etc/bash_completion ]; then
 	. /opt/local/etc/bash_completion
 fi
 
+# git completion
+source ~/cl/bin/git-completion.bash
+
+# Add completion to source and .
+complete -F _command source 
+complete -F _command .
+
+
+# Misc -------------------------------------------------------------
+shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
 
 # Use vi command mode
 #bind "set editing-mode vi"
 set -o vi
 #bind -m vi-command -r 'v'
 
-# git completion
-source ~/cl/bin/git-completion.bash
 
 # Prompts ----------------------------------------------------------
 #git_dirty_flag() {
