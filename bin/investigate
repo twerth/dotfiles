@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#trap ctrl-c to force exit
+trap exit INT
+
 g(){
   ack $@ --color-match=green --color-filename=blue --smart-case
 }
