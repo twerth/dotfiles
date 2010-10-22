@@ -175,24 +175,32 @@ alias la='ls -a'
 alias lla='ls -lah'
 
 # Search
-g(){
-  ack $@ --color-match=green --color-filename=blue --smart-case
-}
-gw(){
-  ack $@ --color-match=green --color-filename=blue --word-regexp --smart-case
-}
-#alias f='find . -iname'
-f(){
-  ack -i -g .*$@[^\/]*$ | highlight blue ".*/" green "$@[^/]"
-}
+if type -P ack &>/dev/null ; then # Use ack for grepping and find if ack is available
+  g(){
+    ack $@ --color-match=green --color-filename=blue --smart-case
+  }
+  gw(){
+    ack $@ --color-match=green --color-filename=blue --word-regexp --smart-case
+  }
+  f(){
+    ack -i -g ".*$@[^\/]*$" | highlight blue ".*/" green "$@[^/]"
+  }
+else
+  g(){
+    grep -Ri $1 *
+  }
+  f(){
+    find . -iname "$1"
+  }
+fi
 
 # Misc
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
 
 if [ "$OS" = "linux" ] ; then
-	alias processes_all='ps -aulx'
+  alias processes_all='ps -aulx'
 else
-	alias top='top -o cpu' # os x
+  alias top='top -o cpu' # os x
 fi
 
 alias systail='tail -f /var/log/system.log'
