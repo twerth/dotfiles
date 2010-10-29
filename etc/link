@@ -16,6 +16,9 @@ ln -s ~/cl/etc/bashrc ~/.bashrc
 ln -s ~/cl/etc/bashrc_help ~/.bashrc_help
 ln -s ~/cl/etc/bashrc_app_specific ~/.bashrc_app_specific
 
+rm ~/.ssh/config
+ln -s ~/cl/etc/ssh_config ~/.ssh/config
+
 # vim
 rm ~/.vimrc
 rm ~/.gvimrc
