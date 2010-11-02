@@ -220,10 +220,14 @@ killhard() {
 }
 
 
-
 # Bring in the other files ----------------------------------------------------
 source ~/.bashrc_help
-source ~/.bashrc_app_specific
+
+source ~/cl/bin/mq/mq.sh # MySQL tools
+source ~/cl/bin/rr/rr.sh # Rails tools
+source ~/cl/bin/gt/gt.sh # Git tools
+source ~/cl/bin/sv/sv.sh # SVN tools
+
 if [ -f ~/.bashrc_local ]; then
 	source ~/.bashrc_local
 fi

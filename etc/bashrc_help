@@ -27,3 +27,8 @@ alias help_mysql="echo -e '${COLOR_LIGHT_PURPLE}MySQL:
   ${COLOR_NC}mysqldump -u root -p database_name table_name >> your_output_file.sql ${COLOR_GRAY} Backup table 
   ${COLOR_NC}mysqldump -u root -p -h host_here -P 3306 --skip-opt database_name table_name ${COLOR_GRAY} Backup table, no locks, specidfy host 
   ${COLOR_NC}mysql -u USERNAME -p database_name < your_output_file.sql ${COLOR_GRAY} Restore from backup'"
+
+
+alias help_nmap="echo -e '${COLOR_LIGHT_PURPLE}nmap: 
+  ${COLOR_NC}Scan network: nmap -sP 192.168.1.1/24
+  '"
