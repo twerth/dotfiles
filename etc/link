@@ -1,55 +1,41 @@
 #!/usr/bin/env bash
 
-# This file needs lots of refactoring
-
 if [ -z "$PS1" ]; then
-  echo -e "${COLOR_RED}You should source this, not run it, for example: source link${COLOR_NC}\n\n"
+  echo -e "${COLOR_RED}You should source this, not run it, for example: source ./link${COLOR_NC}"
+else
+
+  link (){
+    if [ -e $1 ]; then
+      if [ -e $2 ]; then
+        rm $2
+      fi
+
+      ln -s $1 $2
+    fi
+  }
+
+  # bash
+  link ~/cl/etc/bash_profile ~/.bash_profile
+  link ~/cl/etc/bashrc ~/.bashrc
+  link ~/cl/etc/bashrc_help ~/.bashrc_help
+  link ~/cl/etc/bashrc_app_specific ~/.bashrc_app_specific
+
+  # vim
+  link ~/cl/etc/vim/vimrc ~/.vimrc
+  link ~/cl/etc/vim/gvimrc ~/.gvimrc
+  link ~/cl/etc/vim ~/.vim
+
+  # git
+  link ~/cl/etc/gitconfig ~/.gitconfig
+  link ~/cl/etc/gitignore ~/.gitignore
+  link ~/cl/etc/gitattributes ~/.gitattributes
+
+  # misc
+  link ~/cl/etc/subversion ~/.subversion
+  link ~/cl/etc/autotest ~/.autotest
+  link ~/cl/etc/irbrc ~/.irbrc
+  link ~/cl/etc/ssh_config ~/.ssh/config
+
+  source ~/.bash_profile
+
 fi
-
-rm ~/.bash_profile
-rm ~/.bashrc
-rm ~/.bashrc_help
-rm ~/.bashrc_app_specific
-
-ln -s ~/cl/etc/bash_profile ~/.bash_profile
-ln -s ~/cl/etc/bashrc ~/.bashrc
-ln -s ~/cl/etc/bashrc_help ~/.bashrc_help
-ln -s ~/cl/etc/bashrc_app_specific ~/.bashrc_app_specific
-
-rm ~/.ssh/config
-ln -s ~/cl/etc/ssh_config ~/.ssh/config
-
-# vim
-rm ~/.vimrc
-rm ~/.gvimrc
-rm ~/.vim
-
-ln -s ~/cl/etc/vim/vimrc ~/.vimrc
-ln -s ~/cl/etc/vim/gvimrc ~/.gvimrc
-ln -s ~/cl/etc/vim ~/.vim
-
-# netbeans
-#rm ~/.netbeans/6.0/config
-#ln -s ~/cl/etc/netbeans/6.0/config ~/.netbeans/6.0/config
-
-# subversion
-rm ~/.subversion
-ln -s ~/cl/etc/subversion ~/.subversion
-
-# autotest
-rm ~/.autotest
-ln -s ~/cl/etc/autotest ~/.autotest
-
-# irb
-rm ~/.irbrc
-ln -s ~/cl/etc/irbrc ~/.irbrc
-
-# git
-rm ~/.gitconfig
-rm ~/.gitignore
-rm ~/.gitattributes
-ln -s ~/cl/etc/gitconfig ~/.gitconfig
-ln -s ~/cl/etc/gitignore ~/.gitignore
-ln -s ~/cl/etc/gitattributes ~/.gitattributes
-
-source ~/.bash_profile
