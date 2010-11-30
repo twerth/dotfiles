@@ -1,4 +1,16 @@
-alias reloadbash='source ~/cl/etc/bash_profile'
+if [[ $- == *i* ]] ; then
+  export IS_INTERACTIVE=true
+else
+  export IS_INTERACTIVE=false
+fi
+
+if [[ -z $SSH_CONNECTION ]]; then
+  export IS_REMOTE=false
+else
+  export IS_REMOTE=true
+fi
+
+
 
 # Colors ----------------------------------------------------------
 export TERM=xterm-color
@@ -46,73 +58,85 @@ hf(){
 }
 
 
-# Completion -------------------------------------------------------
-bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
-bind "set show-all-if-ambiguous On" # show list automatically, without double tab
-bind "set bell-style none" # no bell
 
-# Turn on advanced bash completion if the file exists 
-# Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
-# on OSX: sudo port install bash-completion
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
+
+  # Input stuff -------------------------------------------------------
+  bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
+  bind "set show-all-if-ambiguous On" # show list automatically, without double tab
+  bind "set bell-style none" # no bell
+
+  # Use vi command mode
+  #bind "set editing-mode vi"
+  #set -o vi
+  #bind -m vi-command -r 'v'
+
+  shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
+
+
+
+  # Completion -------------------------------------------------------
+
+  # Turn on advanced bash completion if the file exists 
+  # Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
+  # on OSX: sudo port install bash-completion
+  if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+  fi
+  if [ -f /opt/local/etc/bash_completion ]; then
+    . /opt/local/etc/bash_completion
+  fi
+
+  # git completion
+  source ~/cl/bin/git-completion.bash
+
+  # Add completion to source and .
+  complete -F _command source 
+  complete -F _command .
+
+
+
+  # Prompts ----------------------------------------------------------
+  #git_dirty_flag() {
+    #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
+  #}
+
+  prompt_func() {
+      previous_return_value=$?;
+      if [ $IS_REMOTE = 'true' ] ; then
+        prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_PURPLE}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+      else
+        prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+      fi
+      #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+      #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
+
+      if test $previous_return_value -eq 0
+      then
+          PS1="${prompt}> "
+      else
+          PS1="${prompt}\[${COLOR_RED}\]> \[${COLOR_NC}\]"
+      fi
+  }
+  PROMPT_COMMAND=prompt_func
+
+  # export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
+  # export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
+  # export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
+  # This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
+  # weird wrapping errors occur on some systems, so this method is superior
+  #export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/} ${USER}@${HOSTNAME%%.*}"; echo -ne "\007"'  # user@host path
+
+  export PS2='> '    # Secondary prompt
+  export PS3='#? '   # Prompt 3
+  export PS4='+'     # Prompt 4
+
+  function xtitle {  # change the title of your xterm* window
+    unset PROMPT_COMMAND
+    echo -ne "\033]0;$1\007" 
+  }
+
 fi
-if [ -f /opt/local/etc/bash_completion ]; then
-	. /opt/local/etc/bash_completion
-fi
-
-# git completion
-source ~/cl/bin/git-completion.bash
-
-# Add completion to source and .
-complete -F _command source 
-complete -F _command .
-
-
-# Misc -------------------------------------------------------------
-shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
-
-# Use vi command mode
-#bind "set editing-mode vi"
-set -o vi
-#bind -m vi-command -r 'v'
-
-
-# Prompts ----------------------------------------------------------
-#git_dirty_flag() {
-  #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
-#}
-
-prompt_func() {
-    previous_return_value=$?;
-    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
-    #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
-    #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
-
-    if test $previous_return_value -eq 0
-    then
-        PS1="${prompt}> "
-    else
-        PS1="${prompt}\[${COLOR_RED}\]> \[${COLOR_NC}\]"
-    fi
-}
-PROMPT_COMMAND=prompt_func
-
-# export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
-# export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
-# export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
-# This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
-# weird wrapping errors occur on some systems, so this method is superior
-#export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/} ${USER}@${HOSTNAME%%.*}"; echo -ne "\007"'  # user@host path
-
-export PS2='> '    # Secondary prompt
-export PS3='#? '   # Prompt 3
-export PS4='+'     # Prompt 4
-
-function xtitle {  # change the title of your xterm* window
-  unset PROMPT_COMMAND
-  echo -ne "\033]0;$1\007" 
-}
 
 
 
@@ -194,19 +218,28 @@ else
   }
 fi
 
+
+
 # Misc
+alias reloadbash='source ~/cl/etc/bash_profile'
+
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
-
-if [ "$OS" = "linux" ] ; then
-  alias processes_all='ps -aulx'
-else
-  alias top='top -o cpu' # os x
-fi
-
-alias systail='tail -f /var/log/system.log'
 alias m='more'
+alias top='top -o cpu' # os x
 
 alias df='df -h' # Show disk usage
+
+if [ "$OS" = "linux" ] ; then
+  alias processes_all='ps -AFH'
+else
+  alias processes_all='ps -Afjv'
+fi
+
+if [ "$OS" = "linux" ] ; then
+  alias systail='tail -f /var/log/syslog'
+else
+  alias systail='tail -f /var/log/system.log'
+fi
 
 # Shows most used commands, cool script I got this from: http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
@@ -215,22 +248,28 @@ alias untar="tar xvzf"
 
 alias cp_folder="cp -Rpv" #copies folder and all sub files and folders, preserving security and dates
 
+alias mirror_website="wget -m -x -p --convert-links --no-host-directories --no-cache -erobots=off"
+
 killhard() {
     kill -9 "$1"
 }
 
 
-# Bring in the other files ----------------------------------------------------
-source ~/.bashrc_help
 
-source ~/cl/bin/mq/mq.sh # MySQL tools
-source ~/cl/bin/rr/rr.sh # Rails tools
-source ~/cl/bin/gt/gt.sh # Git tools
-source ~/cl/bin/sv/sv.sh # SVN tools
+# Bring in the other files ----------------------------------------------------
+if [ $IS_INTERACTIVE = 'true' ] ; then
+  source ~/.bashrc_help
+
+  source ~/cl/bin/mq/mq.sh # MySQL tools
+  source ~/cl/bin/rr/rr.sh # Rails tools
+  source ~/cl/bin/gt/gt.sh # Git tools
+  source ~/cl/bin/sv/sv.sh # SVN tools
+fi
 
 if [ -f ~/.bashrc_local ]; then
-	source ~/.bashrc_local
+  source ~/.bashrc_local
 fi
+
 
 
 # Test ------------------------------------------------------------------------ 
@@ -238,12 +277,4 @@ fi
 #if [ "$OS" = "linux" ] ; then
 #elif
 #else
-#fi
-
-#if [ -z "$PS1" ]; then
-  #echo 'non-interactive shell'
-  ### non-interactive shells (only)
-#else
-  #echo 'interactive shell'
-  ### interactive shells (only)
 #fi

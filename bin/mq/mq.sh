@@ -96,6 +96,4 @@ if type -P mysql &>/dev/null ; then # This script only works if you have 'mysql'
   complete -o nospace -C ~/cl/bin/mq/complete_database_list.rb mqusedatabase mqdropdatabase
   complete -o default -C ~/cl/bin/mq/complete_table_list.rb mqall mqallcount mqallgrep mqfirst mqfields mqalltohtml
 
-else
-  echo 'Warning: mq requires mysql to be installed, it is not so mq was not setup'
 fi
