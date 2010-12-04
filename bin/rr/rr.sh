@@ -13,10 +13,34 @@ alias rrshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}rr${COLOR_NC}migrate${COLOR_BLUE}up
 '"
 
-alias rrserver='./script/server'
-alias rrserverproduction='./script/server -e production'
-alias rrgenerate='./script/generate'
-alias rrconsole='./script/console'
+rrserver(){
+  if [ -f ./script/server ]; then
+    ./script/server $@ # Rails < 3
+  else
+    rails server $@ # Rails 3
+  fi
+}
+rrserverproduction(){
+  if [ -f ./script/server ]; then
+    ./script/server -e production $@
+  else
+    rails server -e production $@
+  fi
+}
+rrconsole(){
+  if [ -f ./script/server ]; then
+    ./script/console $@
+  else
+    rails console $@
+  fi
+}
+rrgenerate(){
+  if [ -f ./script/server ]; then
+    ./script/generate $@
+  else
+    rails generate $@
+  fi
+}
 
 alias rrrakelist='rake -T | g ":"'
 alias rrrakefind='rake -T | g '
