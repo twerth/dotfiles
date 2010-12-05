@@ -169,8 +169,14 @@ shopt -s cdable_vars # set the bash option so that no '$' is required when using
 export EDITOR='vim'  #Command line
 export GIT_EDITOR='vim'
 #alias gvim='/Applications/MacVim.app/Contents/MacOS/vim -g'
-alias v=vim
-alias mvimt='mvim --remote-tab'
+
+if [ "$OS" = "darwin" ] ; then
+  alias v=mvim
+  alias vc=vim
+  alias vt='mvim --remote-tab'
+else
+  alias v=vim
+fi
 
 
 
@@ -189,6 +195,11 @@ alias mvimt='mvim --remote-tab'
 # Sluething----------------------------------------------------
 findportuser() {
     lsof -i :"$1"
+}
+
+track_traffic(){
+  # install ngrep with sudo port install ngrep
+  sudo ngrep -W byline -qld en0 "$1" 
 }
 
 
@@ -253,6 +264,7 @@ alias mirror_website="wget -m -x -p --convert-links --no-host-directories --no-c
 killhard() {
     kill -9 "$1"
 }
+
 
 
 
