@@ -1,13 +1,12 @@
 "=============================================================================
-" Copyright (c) 2007-2009 Takeshi NISHIDA
+" Copyright (c) 2007-2010 Takeshi NISHIDA
 "
 "=============================================================================
 " LOAD GUARD {{{1
 
-if exists('g:loaded_autoload_fuf_callbackfile') || v:version < 702
+if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, [])
   finish
 endif
-let g:loaded_autoload_fuf_callbackfile = 1
 
 " }}}1
 "=============================================================================
@@ -21,6 +20,11 @@ endfunction
 "
 function fuf#callbackfile#getSwitchOrder()
   return -1
+endfunction
+
+"
+function fuf#callbackfile#getEditableDataNames()
+  return []
 endfunction
 
 "
@@ -53,7 +57,7 @@ let s:MODE_NAME = expand('<sfile>:t:r')
 
 "
 function s:enumItems(dir)
-  let key = getcwd() . s:exclude . "\n" . a:dir
+  let key = getcwd() . g:fuf_ignoreCase . s:exclude . "\n" . a:dir
   if !exists('s:cache[key]')
     let s:cache[key] = fuf#enumExpandedDirsEntries(a:dir, s:exclude)
     if isdirectory(a:dir)
@@ -78,7 +82,7 @@ endfunction
 
 "
 function s:handler.getPrompt()
-  return fuf#formatPrompt(s:prompt, self.partialMatching)
+  return fuf#formatPrompt(s:prompt, self.partialMatching, '')
 endfunction
 
 "
@@ -87,8 +91,8 @@ function s:handler.getPreviewHeight()
 endfunction
 
 "
-function s:handler.targetsPath()
-  return 1
+function s:handler.isOpenable(enteredPattern)
+  return a:enteredPattern =~# '[^/\\]$'
 endfunction
 
 "
@@ -123,7 +127,7 @@ endfunction
 
 "
 function s:handler.onModeLeavePost(opened)
-  if !a:opened
+  if !a:opened && exists('s:listener.onAbort()')
     call s:listener.onAbort()
   endif
 endfunction

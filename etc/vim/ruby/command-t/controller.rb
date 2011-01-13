@@ -29,18 +29,14 @@ module CommandT
   class Controller
     def initialize
       @prompt = Prompt.new
-      @max_height = get_number('g:CommandTMaxHeight') || 0
-      @finder = CommandT::Finder.new nil,
-        :max_files              => get_number('g:CommandTMaxFiles'),
-        :max_depth              => get_number('g:CommandTMaxDepth'),
-        :always_show_dot_files  => get_bool('g:CommandTAlwaysShowDotFiles'),
-        :never_show_dot_files   => get_bool('g:CommandTNeverShowDotFiles'),
-        :scan_dot_directories   => get_bool('g:CommandTScanDotDirectories'),
-        :excludes               => get_string('&wildignore')
+      set_up_max_height
+      set_up_finder
     end
 
     def show
-      @finder.path    = VIM::pwd
+      # optional parameter will be desired starting directory, or ""
+      @path           = File.expand_path(::VIM::evaluate('a:arg'), VIM::pwd)
+      @finder.path    = @path
       @initial_window = $curwin
       @initial_buffer = $curbuf
       @match_window   = MatchWindow.new \
@@ -49,22 +45,32 @@ module CommandT
       @focus          = @prompt
       @prompt.focus
       register_for_key_presses
-      clear # clears prompt and list matches
+      clear # clears prompt and lists matches
+    rescue Errno::ENOENT
+      # probably a problem with the optional parameter
+      @match_window.print_no_such_file_or_directory
     end
 
     def hide
       @match_window.close
-      if @initial_window.select
-        VIM::command "silent b #{@initial_buffer.number}"
+      if VIM::Window.select @initial_window
+        if @initial_buffer.number == 0
+          # upstream bug: buffer number misreported as 0
+          # see: https://wincent.com/issues/1617
+          ::VIM::command "silent b #{@initial_buffer.name}"
+        else
+          ::VIM::command "silent b #{@initial_buffer.number}"
+        end
       end
     end
 
     def flush
-      @finder.flush
+      set_up_max_height
+      set_up_finder
     end
 
-    def key_pressed
-      key = VIM::evaluate('a:arg').to_i.chr
+    def handle_key
+      key = ::VIM::evaluate('a:arg').to_i.chr
       if @focus == @prompt
         @prompt.add! key
         list_matches
@@ -73,14 +79,14 @@ module CommandT
       end
     end
 
-    def backspace_pressed
+    def backspace
       if @focus == @prompt
         @prompt.backspace!
         list_matches
       end
     end
 
-    def delete_pressed
+    def delete
       if @focus == @prompt
         @prompt.delete!
         list_matches
@@ -95,11 +101,7 @@ module CommandT
 
     def toggle_focus
       @focus.unfocus # old focus
-      if @focus == @prompt
-        @focus = @match_window
-      else
-        @focus = @prompt
-      end
+      @focus = @focus == @prompt ? @match_window : @prompt
       @focus.focus # new focus
     end
 
@@ -136,21 +138,61 @@ module CommandT
       @prompt.cursor_start if @focus == @prompt
     end
 
+    def leave
+      @match_window.leave
+    end
+
+    def unload
+      @match_window.unload
+    end
+
   private
 
+    def set_up_max_height
+      @max_height = get_number('g:CommandTMaxHeight') || 0
+    end
+
+    def set_up_finder
+      @finder = CommandT::Finder.new nil,
+        :max_files              => get_number('g:CommandTMaxFiles'),
+        :max_depth              => get_number('g:CommandTMaxDepth'),
+        :always_show_dot_files  => get_bool('g:CommandTAlwaysShowDotFiles'),
+        :never_show_dot_files   => get_bool('g:CommandTNeverShowDotFiles'),
+        :scan_dot_directories   => get_bool('g:CommandTScanDotDirectories')
+    end
+
+    def exists? name
+      ::VIM::evaluate("exists(\"#{name}\")").to_i != 0
+    end
+
     def get_number name
-      return nil if VIM::evaluate("exists(\"#{name}\")").to_i == 0
-      VIM::evaluate("#{name}").to_i
+      exists?(name) ? ::VIM::evaluate("#{name}").to_i : nil
     end
 
     def get_bool name
-      return nil if VIM::evaluate("exists(\"#{name}\")").to_i == 0
-      VIM::evaluate("#{name}").to_i != 0
+      exists?(name) ? ::VIM::evaluate("#{name}").to_i != 0 : nil
     end
 
     def get_string name
-      return nil if VIM::evaluate("exists(\"#{name}\")").to_i == 0
-      VIM::evaluate("#{name}").to_s
+      exists?(name) ? ::VIM::evaluate("#{name}").to_s : nil
+    end
+
+    # expect a string or a list of strings
+    def get_list_or_string name
+      return nil unless exists?(name)
+      list_or_string = ::VIM::evaluate("#{name}")
+      if list_or_string.kind_of?(Array)
+        list_or_string.map { |item| item.to_s }
+      else
+        list_or_string.to_s
+      end
+    end
+
+    def relative_path_under_working_directory path
+      # any path under the working directory will be specified as a relative
+      # path to improve the readability of the buffer list etc
+      pwd = File.expand_path(VIM::pwd) + '/'
+      path.index(pwd) == 0 ? path[pwd.length..-1] : path
     end
 
     # Backslash-escape space, \, |, %, #, "
@@ -168,15 +210,46 @@ module CommandT
       end
     end
 
+    def ensure_appropriate_window_selection
+      # normally we try to open the selection in the current window, but there
+      # is one exception:
+      #
+      # - we don't touch any "unlisted" buffer with buftype "nofile" (such as
+      #   NERDTree or MiniBufExplorer); this is to avoid things like the "Not
+      #   enough room" error which occurs when trying to open in a split in a
+      #   shallow (potentially 1-line) buffer like MiniBufExplorer is current
+      #
+      # Other "unlisted" buffers, such as those with buftype "help" are treated
+      # normally.
+      initial = $curwin
+      while true do
+        break unless ::VIM::evaluate('&buflisted').to_i == 0 &&
+          ::VIM::evaluate('&buftype').to_s == 'nofile'
+        ::VIM::command 'wincmd w'     # try next window
+        break if $curwin == initial # have already tried all
+      end
+    end
+
     def open_selection selection, options = {}
       command = options[:command] || default_open_command
+      selection = File.expand_path selection, @path
+      selection = relative_path_under_working_directory selection
       selection = sanitize_path_string selection
-      VIM::command "silent #{command} #{selection}"
+      ensure_appropriate_window_selection
+      ::VIM::command "silent #{command} #{selection}"
     end
 
     def map key, function, param = nil
-      VIM::command "noremap <silent> <buffer> #{key} " \
+      ::VIM::command "noremap <silent> <buffer> #{key} " \
         ":call CommandT#{function}(#{param})<CR>"
+    end
+
+    def xterm?
+      !!(::VIM::evaluate('&term') =~ /\Axterm/)
+    end
+
+    def vt100?
+      !!(::VIM::evaluate('&term') =~ /\Avt100/)
     end
 
     def register_for_key_presses
@@ -186,33 +259,35 @@ module CommandT
       uppercase   = lowercase.upcase
       punctuation = '<>`@#~!"$%&/()=+*-_.,;:?\\\'{}[] ' # and space
       (numbers + lowercase + uppercase + punctuation).each_byte do |b|
-        map "<Char-#{b}>", 'KeyPressed', b
+        map "<Char-#{b}>", 'HandleKey', b
       end
 
-      # "special" keys
-      map '<BS>',     'BackspacePressed'
-      map '<Del>',    'DeletePressed'
-      map '<CR>',     'AcceptSelection'
-      map '<C-CR>',   'AcceptSelectionSplit'
-      map '<C-s>',    'AcceptSelectionSplit'
-      map '<C-t>',    'AcceptSelectionTab'
-      map '<C-v>',    'AcceptSelectionVSplit'
-      map '<Tab>',    'ToggleFocus'
-      map '<Esc>',    'Cancel'
-      map '<C-c>',    'Cancel'
-      map '<C-n>',    'SelectNext'
-      map '<C-p>',    'SelectPrev'
-      map '<C-j>',    'SelectNext'
-      map '<C-k>',    'SelectPrev'
-      map '<Down>',   'SelectNext'
-      map '<Up>',     'SelectPrev'
-      map '<C-u>',    'Clear'
-      map '<Left>',   'CursorLeft'
-      map '<Right>',  'CursorRight'
-      map '<C-h>',    'CursorLeft'
-      map '<C-l>',    'CursorRight'
-      map '<C-e>',    'CursorEnd'
-      map '<C-a>',    'CursorStart'
+      # "special" keys (overridable by settings)
+      { 'Backspace'             => '<BS>',
+        'Delete'                => '<Del>',
+        'AcceptSelection'       => '<CR>',
+        'AcceptSelectionSplit'  => ['<C-CR>', '<C-s>'],
+        'AcceptSelectionTab'    => '<C-t>',
+        'AcceptSelectionVSplit' => '<C-v>',
+        'ToggleFocus'           => '<Tab>',
+        'Cancel'                => ['<C-c>', '<Esc>'],
+        'SelectNext'            => ['<C-n>', '<C-j>', '<Down>'],
+        'SelectPrev'            => ['<C-p>', '<C-k>', '<Up>'],
+        'Clear'                 => '<C-u>',
+        'CursorLeft'            => ['<Left>', '<C-h>'],
+        'CursorRight'           => ['<Right>', '<C-l>'],
+        'CursorEnd'             => '<C-e>',
+        'CursorStart'           => '<C-a>' }.each do |key, value|
+        if override = get_list_or_string("g:CommandT#{key}Map")
+          [override].flatten.each do |mapping|
+            map mapping, key
+          end
+        else
+          [value].flatten.each do |mapping|
+            map mapping, key unless mapping == '<Esc>' && (xterm? || vt100?)
+          end
+        end
+      end
     end
 
     # Returns the desired maximum number of matches, based on available
