@@ -145,7 +145,7 @@ alias ..='cd ..'
 alias ...='cd .. ; cd ..'
 cl() { cd $1; ls -la; } 
 
-source ~/cl/bin/bookmarks.sh
+source ~/cl/bin/bashmarks.sh
 
 
 

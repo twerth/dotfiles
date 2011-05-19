@@ -1,8 +1,9 @@
-# Provides bookmarking ability for folders/directories in bash.
+# Bashmarks is a simple set of bash functions that allows you to bookmark 
+# folders in the command-line.
 # 
-# To install, put bookmarks.sh somewhere such as ~/bin, then source it 
+# To install, put bashmarks.sh somewhere such as ~/bin, then source it 
 # in your .bashrc file (or other bash startup file):
-#   source ~/bin/bookmarks.sh
+#   source ~/bin/bashmarks.sh
 #
 # To bookmark a folder, simply go to that folder, then bookmark it like so:
 #   bookmark foo
@@ -12,11 +13,13 @@
 # When you want to get back to that folder use:
 #   go foo
 #
-# To see a list of the bookmarks:
+# To see a list of bookmarks:
 #   bookmarksshow
 # 
-# Tab completion works, to go to the shoobie folder:
+# Tab completion works, to go to the shoobie bookmark:
 #   go sho[tab]
+# 
+# Your bookmarks are stored in the ~/.bookmarks file
 
 bookmarks_file=~/.bookmarks
 
