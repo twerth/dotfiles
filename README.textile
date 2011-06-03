@@ -21,4 +21,4 @@ I mod these all the time, and sometimes I break stuff.  Also, my main platforms 
 
 h2. More information
 
-"InfiniteRed":http://blog.infinitered.com/entries/show/9
+"Blog post":http://blog.toddwerth.com/entries/9
