@@ -12,6 +12,18 @@ if has("gui_macvim")
   set guioptions-=T  " remove toolbar
   set stal=2 " turn on tabs by default
 
+  " Command-Option-ArrowKey to switch viewports
+  aunmenu Window.Select\ Next\ Tab
+  aunmenu Window.Select\ Previous\ Tab
+  map <D-M-Up> <C-w>k
+  imap <D-M-Up> <Esc> <C-w>k
+  map <D-M-Down> <C-w>j
+  imap <D-M-Down> <Esc> <C-w>j
+  map <D-M-Right> <C-w>l
+  imap <D-M-Right> <Esc> <C-w>l
+  map <D-M-Left> <C-w>h
+  imap <D-M-Left> <C-w>h
+
 elseif has("gui_gtk2")
 
   set guifont=Monaco
