@@ -69,7 +69,14 @@ if type -P mysql &>/dev/null ; then # This script only works if you have 'mysql'
     mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1" | g "($2)"
   }
   mqfirst (){
-    mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $@ limit 1" | highlight blue '[|+-]'
+    if [[ "$2" == "" ]]; then
+      mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1 limit 1" | highlight blue '[|+-]'
+    else
+      mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1 limit $2" | highlight blue '[|+-]'
+    fi
+  }
+  mqallwhere (){
+    mysql -u ${MYSQL_DEFAULT_USER} -t -D ${MYSQL_DEFAULT_DB} -vvv -e "select * from $1 where $2"
   }
 
   mqdatabases (){
@@ -77,7 +84,8 @@ if type -P mysql &>/dev/null ; then # This script only works if you have 'mysql'
     echo -e "\nCurrent DB: ${MYSQL_DEFAULT_DB}"
   }
 
-  alias mqtables='mqrun  "show tables"' 
+  alias mqtables='mqrun "show tables"' 
+
   mqfields(){
     mqrun "describe $@"
   }
@@ -94,6 +102,6 @@ if type -P mysql &>/dev/null ; then # This script only works if you have 'mysql'
 
   # Completion
   complete -o nospace -C ~/cl/bin/mq/complete_database_list.rb mqusedatabase mqdropdatabase
-  complete -o default -C ~/cl/bin/mq/complete_table_list.rb mqall mqallcount mqallgrep mqfirst mqfields mqalltohtml
+  complete -o default -C ~/cl/bin/mq/complete_table_list.rb mqall mqallcount mqallgrep mqfirst mqfields mqalltohtml mqallwhere
 
 fi

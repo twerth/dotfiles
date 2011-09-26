@@ -88,6 +88,8 @@ set incsearch  " Incremental search, search as you type
 set ignorecase " Ignore case when searching 
 set smartcase " Ignore case when searching lowercase
 
+" ,a to continue search throughout all
+nmap <Leader>a :silent exec "while !search( @/, \"W\") \| bnext \| 0 \| endwhile"<CR>
 
 " Colors **********************************************************************
 "set t_Co=256 " 256 colors

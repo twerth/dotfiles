@@ -54,13 +54,13 @@ end
 FAIL_ICON_PATH = File.join(File.dirname(__FILE__), 'rails_fail.png')
 OK_ICON_PATH = File.join(File.dirname(__FILE__), 'rails_fail.png')
 
-case PLATFORM
-when /darwin/
+case RUBY_PLATFORM
+when /darwin/ then
   require_gem 'ruby-growl'
-when /win32/
+when /win32/ then
   require_gem 'autosnarl'
 else
-  warn "Uh-oh, sorry. No Fancy-schmancy notifiers for #{PLATFORM}"
+  warn "Uh-oh, sorry. No Fancy-schmancy notifiers for #{RUBY_PLATFORM}"
 end
 
 module GrowlNotifier
@@ -119,15 +119,15 @@ module EmptyNotifier
   end
 end
 
-Notifier = case PLATFORM
-  when /linux/: EmptyNotifier
-  when /win32/: SnarlNotifier
-  else
+Notifier = case RUBY_PLATFORM
+  when /linux/ then EmptyNotifier
+  when /win32/ then SnarlNotifier
+  else 
     GrowlNotifier
   end
 
 module ParseSpecResult
- def self.notify_test_unit_results(results)
+  def self.notify_test_unit_results(results)
     output = results.slice(/(\d+)\s+tests?,\s*(\d+)\s+assertions?,\s*(\d+)\s+failures?(,\s*(\d+)\s+errors)?/)
     if output
       $~[3].to_i + $~[5].to_i > 0 ? Notifier.notify_fail(output) : Notifier.notify_pass(output)

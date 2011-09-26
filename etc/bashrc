@@ -183,10 +183,18 @@ findportuser() {
     lsof -i :"$1"
 }
 
+findhosts(){
+  nmap -sP -n -oG - "$1"/24 | grep "Up" | awk '{print $2}' -
+  echo "To scan those do: nmap $1-254" 
+  echo "To scan and OS detect those do: sudo nmap -O $1-254" 
+  echo "To intensly scan one do: sudo nmap -sV -vv -PN $1"
+}
+
 monitor_traffic(){
   # install ngrep with sudo port install ngrep
   sudo ngrep -W byline -qld en1 "$1" 
 }
+
 
 
 
@@ -205,12 +213,15 @@ if type -P ack &>/dev/null ; then
   gw(){
     ack "$*" --all-types --color-match=green --color-filename=blue --word-regexp --smart-case
   }
+  gnolog(){
+    ack "$*" --all-types --ignore-dir=log --color-match=green --color-filename=blue --smart-case
+  }
   f(){
     ack -i -g ".*$*[^\/]*$" | highlight blue ".*/" green "$*[^/]"
   }
 else
   g(){
-    grep -Ri $1 *
+    grep -Rin $1 *
   }
   f(){
     find . -iname "$1"
@@ -252,6 +263,16 @@ alias mirror_website="wget -m -x -p --convert-links --no-host-directories --no-c
 killhard() {
     kill -9 "$1"
 }
+
+
+
+# Ruby ----------------------------------------------------
+
+# RVM
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+
+# Fixes problems with sending email in ruby
+export RUBYOPT="-r openssl"
 
 
 

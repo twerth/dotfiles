@@ -89,4 +89,11 @@ snippet observe
 	.observe('${1:click}', function(event){ 
 		${2}
 	});
+snippet page
+	$(document).ready(function() { app.${1:your}_page.init(); });
 
+	app.$1_page = {
+		init: function(){
+			${2}
+		}
+	};
