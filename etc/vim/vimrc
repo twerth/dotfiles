@@ -61,6 +61,7 @@ call Tabstyle_spaces()
 " Indenting *******************************************************************
 set ai " Automatically set the indent of a new line (local to buffer)
 set si " smartindent (local to buffer)
+set pastetoggle=<F2>
 
 
 " Scrollbars ******************************************************************
