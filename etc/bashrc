@@ -274,6 +274,10 @@ killhard() {
 # Fixes problems with sending email in ruby
 export RUBYOPT="-r openssl"
 
+# Spin: gem install spin
+alias spin="spin serve -Itest | highlight red ' [1-9]0* failures' purple '[_a-zA-Z0-9]*\.rb.[0-9]*' red 'Error:' red 'Failure:' red ' [1-9]0* errors' green ' 0 errors' green ' 0 failures'"
+alias spin_kicker="kicker -r rails -b 'spin push'"
+
 
 
 # Bring in the other files ----------------------------------------------------
