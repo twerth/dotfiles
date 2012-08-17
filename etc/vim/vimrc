@@ -1,4 +1,5 @@
 " -----------------------------------------------------------------------------  
+"
 " |                            VIM Settings                                   |
 " |                   (see gvimrc for gui vim settings)                       |
 " |                                                                           |
@@ -11,12 +12,13 @@
 " |   ,p = go to previous file                                                |
 " |                                                                           |
 " |   hh = inserts '=>'                                                       |
-" |   aa = inserts '@'                                                        |
 " |                                                                           |
 " |   ,h = new horizontal window                                              |
 " |   ,v = new vertical window                                                |
 " |                                                                           |
 " |   ,i = toggle invisibles                                                  |
+" |   ,c = toggle comments                                                    |
+" |   ,F2 = toggle paste "                                                     |
 " |                                                                           |
 " |   enter and shift-enter = adds a new line after/before the current line   |
 " |                                                                           |
@@ -63,7 +65,6 @@ set ai " Automatically set the indent of a new line (local to buffer)
 set si " smartindent (local to buffer)
 set pastetoggle=<F2>
 
-
 " Scrollbars ******************************************************************
 set sidescrolloff=2
 set numberwidth=4
@@ -96,7 +97,7 @@ nmap <Leader>a :silent exec "while !search( @/, \"W\") \| bnext \| 0 \| endwhile
 "set t_Co=256 " 256 colors
 set background=dark 
 syntax on " syntax highlighting
-colorscheme ir_black
+colorscheme ir_dark
 
 
 " Status Line *****************************************************************
@@ -172,7 +173,7 @@ map j gj
 imap <down> <C-o>gj
 map E ge
 
-map <Leader>p <C-^> " Go to previous file
+map <Leader>p <C-^> " Go back to previous file
 
 
 " Ruby stuff ******************************************************************
@@ -195,7 +196,6 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 " Hard to type *****************************************************************
 imap uu _
 imap hh =>
-imap aa @
 
 
 " -----------------------------------------------------------------------------  
@@ -216,29 +216,10 @@ let NERDCreateDefaultMappings=0 " I turn this off to make it simple
 " will be commented
 :map <Leader>c :call NERDComment(0, "toggle")<CR> 
 
-
-" SnippetsEmu *****************************************************************
-"imap <unique> <C-j> <Plug>Jumper
-"let g:snip_start_tag = "_\."
-"let g:snip_end_tag = "\._"
-"let g:snip_elem_delim = ":"
-"let g:snip_set_textmate_cp = '1'  " Tab to expand snippets, not automatically.
-
-
-" CommandT ********************************************************
-  " To compile:
-  " cd ~/cl/etc/vim/ruby/command-t
-  " ruby extconf.rb
-  " make
-let g:CommandTMatchWindowAtTop = 1
-map <Leader>f :CommandT<CR>
-
-
-" fuzzyfinder ********************************************************
-" I'm using CommandT for main searching, but it doesn't do buffers, so I'm
-" using FuzzyFinder for that
-map <Leader>b :FufBuffer<CR>
-"let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
+"
+" CtrlP ********************************************************
+map <Leader>f :CtrlP<CR>
+map <Leader>b :CtrlPBuffer<CR>
 
 
 " autocomplpop ***************************************************************
@@ -246,13 +227,20 @@ map <Leader>b :FufBuffer<CR>
 "set complete=.,w,b,u,t,k
 "let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
 "set complete=.
-let g:AutoComplPop_IgnoreCaseOption = 0
-let g:AutoComplPop_BehaviorKeywordLength = 2
+"let g:AutoComplPop_IgnoreCaseOption = 0
+"let g:AutoComplPop_BehaviorKeywordLength = 2
 
 
 " railsvim ***************************************************************
 map <Leader>ra :AS<CR>
 map <Leader>rs :RS<CR>
+
+
+" ctags ***************************************************************
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+let Tlist_WinWidth = 50
+map <Leader>t :TlistToggle<cr>
+map <Leader>j <C-]>
 
 
 " -----------------------------------------------------------------------------  

@@ -11,8 +11,14 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Path ------------------------------------------------------------
 if [ "$OS" = "darwin" ] ; then
-  export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts and MySQL installed
-  #export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts installed
+  if [ -d /opt/local ]; then
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts and MySQL installed
+    #export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts installed
+  fi
+fi
+
+if [ -d /usr/local/bin ]; then
+	export PATH=/usr/local/bin:$PATH 
 fi
 
 if [ -d ~/bin ]; then
@@ -24,8 +30,9 @@ if [ -d ~/cl/bin ]; then
 fi
 
 
+export ARCHFLAGS="-arch x86_64"
 
-# Load in .bashrc -------------------------------------------------
+ #Load in .bashrc -------------------------------------------------
 source ~/.bashrc
 
 # Hello Messsage --------------------------------------------------

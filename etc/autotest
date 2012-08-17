@@ -1,4 +1,4 @@
-require 'autotest/redgreen'
+#require 'autotest/redgreen'
 
 #module Autotest::Growl
 #

@@ -14,6 +14,8 @@ snippet f
 	function(${1}) {${2}};
 snippet fp
 	${1:method_name}: function(${2}){
+		var that = this;
+
 		${3}
 	}${4:,}
 # if
@@ -25,8 +27,7 @@ snippet if
 snippet ife
 	if (${1:true}){
 		${2}
-	}
-	else {
+	} else {
 		${3}
 	};
 # tertiary conditional
@@ -72,19 +73,10 @@ snippet do
 snippet timeout
 	setTimeout(function() {${3}}${2}, ${1:10};
 # Get Elements
-snippet get
-	getElementsBy${1:TagName}('${2}')${3}
-# Get Element
-snippet gett
-	getElementBy${1:Id}('${2}')${3}
 snippet $
-	$('${1:dom_id}')${2}
-snippet $$ 
-	$$('${1:dom_id}').each(function(item) { 
-		${2}
-	}.bind(this));
-snippet $j
-	$j('${1}')${2}
+	$("${1:dom_id}")${2}
+snippet $t
+	$(this)${1}
 snippet observe
 	.observe('${1:click}', function(event){ 
 		${2}
@@ -97,3 +89,9 @@ snippet page
 			${2}
 		}
 	};
+snippet event
+	$("${1}").${2:click}(function(${3}){
+		${4};
+	});
+snippet ret 
+	return ${1};

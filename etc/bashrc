@@ -86,6 +86,9 @@ if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
   if [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion
   fi
+  if [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+  fi
 
   # git completion
   source ~/cl/bin/git-completion.bash
@@ -104,9 +107,9 @@ if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
   prompt_func() {
       previous_return_value=$?;
       if [ $IS_REMOTE = 'true' ] ; then
-        prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_PURPLE}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+        prompt="\n\[\033]0;${USER} ${PWD}\007\]\[${COLOR_PURPLE}\]\w \[${COLOR_GRAY}\]${USER}@${HOSTNAME%%.*}$(__git_ps1)\[${COLOR_NC}\]\n"
       else
-        prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+        prompt="\n\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w \[${COLOR_GRAY}\]${USER}@${HOSTNAME%%.*}$(__git_ps1)\[${COLOR_NC}\]\n"
       fi
       #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
       #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
@@ -195,7 +198,9 @@ monitor_traffic(){
   sudo ngrep -W byline -qld en1 "$1" 
 }
 
-
+find_large_files(){
+  find . -type f -size +50000k -exec ls -lh {} \; | awk '{ print $9 ": " $5 }'
+}
 
 
 # Other aliases ----------------------------------------------------
@@ -240,10 +245,13 @@ alias top='top -o cpu' # os x
 alias df='df -h' # Show disk usage
 
 if [ "$OS" = "linux" ] ; then
-  alias processes_all='ps -AFH'
+  alias psaux='ps -AFH'
 else
-  alias processes_all='ps -Afjv'
+  alias psaux='ps aux'
 fi
+psgrep(){
+  psaux | egrep "$1" | egrep -v "grep|highlight" | highlight green "$1"
+}
 
 if [ "$OS" = "linux" ] ; then
   alias systail='tail -f /var/log/syslog'
@@ -272,9 +280,9 @@ killhard() {
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 
 # Fixes problems with sending email in ruby
-export RUBYOPT="-r openssl"
+#export RUBYOPT="-r openssl"
 
-# Spin: gem install spin
+# Spin: gem install spin kicker
 alias spin="spin serve -Itest | highlight red ' [1-9]0* failures' purple '[_a-zA-Z0-9]*\.rb.[0-9]*' red 'Error:' red 'Failure:' red ' [1-9]0* errors' green ' 0 errors' green ' 0 failures'"
 alias spin_kicker="kicker -r rails -b 'spin push'"
 
@@ -302,3 +310,5 @@ fi
 #elif
 #else
 #fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

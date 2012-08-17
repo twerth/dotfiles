@@ -66,6 +66,8 @@ alias gtstashsave='gt stash save'
 alias gtstashlist='gt stash list'
 alias gtstashapply='gt stash apply'
 alias gtmovelastcommittostaged='gt reset --soft HEAD^'
+alias gtbranchesmerged='git branch -a --merged'
+alias gtbranchesnomerged='git branch -a --no-merged'
 
 gtcommit(){
   gt commit -m "$@"
@@ -98,6 +100,11 @@ gtloggrep(){
 
 gtgrep(){
   gt grep -n --ignore-case -e "$@" | highlight green "$@" blue "^.*\:"
+}
+
+gtcreateremotebranch (){
+  git checkout -b $1
+  git push -u origin $1 
 }
 
 complete -C ~/cl/bin/gt/complete_branch_list.rb -o default gtcheckout gtpushorigin
