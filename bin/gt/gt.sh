@@ -68,6 +68,7 @@ alias gtstashapply='gt stash apply'
 alias gtmovelastcommittostaged='gt reset --soft HEAD^'
 alias gtbranchesmerged='git branch -a --merged'
 alias gtbranchesnomerged='git branch -a --no-merged'
+alias gtresethardandclean='git reset --hard && git clean -fdx'
 
 gtcommit(){
   gt commit -m "$@"

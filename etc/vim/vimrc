@@ -220,6 +220,7 @@ let NERDCreateDefaultMappings=0 " I turn this off to make it simple
 " CtrlP ********************************************************
 map <Leader>f :CtrlP<CR>
 map <Leader>b :CtrlPBuffer<CR>
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|build|vendor|tmp)$'
 
 
 " autocomplpop ***************************************************************

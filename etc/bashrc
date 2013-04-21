@@ -215,6 +215,9 @@ if type -P ack &>/dev/null ; then
   g(){
     ack "$*" --all-types --color-match=green --color-filename=blue --smart-case
   }
+  grb(){
+    ack "$*" --type=ruby --color-match=green --color-filename=blue --smart-case
+  }
   gw(){
     ack "$*" --all-types --color-match=green --color-filename=blue --word-regexp --smart-case
   }
@@ -234,13 +237,18 @@ else
 fi
 
 
+find_replace_log_changes(){
+  find . -type f | xargs grep -n "$1" | tee files_changed.txt | sed 's/:.*$//' | xargs sed -i "s/$1/$2/g"
+}
+
 
 # Misc
 alias reloadbash='source ~/cl/etc/bash_profile'
 
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
+alias bigfilesandfolders='du -hsx * | sort -rh | head -20'
 alias m='more'
-alias top='top -o cpu' # os x
+alias top='top -o cpu' # os x:
 
 alias df='df -h' # Show disk usage
 
@@ -295,7 +303,8 @@ if [ $IS_INTERACTIVE = 'true' ] ; then
   source ~/cl/bin/mq/mq.sh # MySQL tools
   source ~/cl/bin/rr/rr.sh # Rails tools
   source ~/cl/bin/gt/gt.sh # Git tools
-  source ~/cl/bin/sv/sv.sh # SVN tools
+  source ~/cl/bin/be/be.sh # Bundle exec
+  #source ~/cl/bin/sv/sv.sh # SVN tools
 fi
 
 if [ -f ~/.bashrc_local ]; then
