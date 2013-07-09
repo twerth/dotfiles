@@ -29,8 +29,8 @@ let colors_name = "ir_blue"
 "hi Example         guifg=NONE        guibg=NONE        gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
 
 " General colors
-hi Normal           guifg=#f6f3e8     guibg=#000026     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
-hi NonText          guifg=#000026     guibg=#000026     gui=NONE      ctermfg=black       ctermbg=NONE        cterm=NONE
+hi Normal           guifg=#f6f3e8     guibg=#000038     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+hi NonText          guifg=#000038     guibg=#000038     gui=NONE      ctermfg=black       ctermbg=NONE        cterm=NONE
 
 hi Cursor           guifg=black       guibg=white       gui=NONE      ctermfg=black       ctermbg=white       cterm=reverse
 hi LineNr           guifg=#3e3e3e     guibg=#000026     gui=NONE      ctermfg=darkgray    ctermbg=NONE        cterm=NONE

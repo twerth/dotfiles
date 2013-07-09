@@ -46,6 +46,7 @@ alias gtpush='gt push'
 alias gtfetch='gt fetch'
 alias gthelp='gt help'
 alias gtpull='gt pull'
+alias gtpullrebase='gt pull --rebase'
 alias gtdelete='gt rm'
 #alias gtdeleteall='git status | grep "^\!" | awk "{print \$2}" | xargs svn delete'
 #alias gtdeleteall='gt rm'
@@ -101,6 +102,11 @@ gtloggrep(){
 
 gtgrep(){
   gt grep -n --ignore-case -e "$@" | highlight green "$@" blue "^.*\:"
+}
+
+gtswitchtomaster (){
+  git checkout master
+  git pull
 }
 
 gtcreateremotebranch (){

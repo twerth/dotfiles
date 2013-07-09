@@ -32,6 +32,7 @@
 set nocompatible
 let mapleader = ","
 imap jj <Esc> " Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
+set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.o,.DS_Store
 
 
 " Tabs ************************************************************************
@@ -218,9 +219,13 @@ let NERDCreateDefaultMappings=0 " I turn this off to make it simple
 
 "
 " CtrlP ********************************************************
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|vendor|build|resources)$',
+  \ 'file': '\v\.(exe|so|dll|001|002)$' }"
 map <Leader>f :CtrlP<CR>
 map <Leader>b :CtrlPBuffer<CR>
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|build|vendor|tmp)$'
+"let g:ctrlp_dotfiles = 0
+"let g:ctrlp_use_caching = 0
 
 
 " autocomplpop ***************************************************************
